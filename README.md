@@ -1,5 +1,7 @@
 # ICU capacity management during the COVID-19 pandemic using a process simulation (icu-covid-sim)
 
+icu-covid-sim is an ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation).
+
 ## AUTHORS: 
 
 Andres Alban*; Stephen E Chick*, PhD; Dave A. Dongelmans**, MD, PhD; Alexander F. van der Sluijs**, MD; W. Joost Wiersinga**** MD, PhD, MBA; Alexander P.J. Vlaar**, MD, PhD, MBA; Danielle Sent***, PhD
@@ -14,12 +16,6 @@ NOTE: Code provided as is for noncommercial, academic usage only.
 This repository contains R/Rstudio/Shiny implementation of the decision support tool described in 'ICU capacity management during the COVID-19 pandemic using a process simulation' by the authors above.
 
 The application has been deployed at: https://andres-alban.shinyapps.io/icu-covid-sim/.
-
-Main readme for this repo is ([README.md](README.md).
-
-## icu-covid-sim
-
-This ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation).
 
 ## QUICK START INSTRUCTIONS
 
@@ -36,13 +32,13 @@ Summary in words: At https://andres-alban.shinyapps.io/icu-covid-sim/, follow th
 - COVID patients per day which can be handled in ICU, given COVID demand, LOS requirements, and potential for bed blocking. Can thereby decude the number of patients which must be referred elsewhere.
 - Simular statistics for unplanned non-COVID-19 ICU patients, for the block of beds allocated for them.
 
+### More examples of USAGE of the tool is at ([README-AppB.md](README-AppB.md))
+
 ### For more details: 
 
 Short letter in submission for publication, built on conceptual model at https://ssrn.com/abstract_id=3565826 (invited for 2020 Winter Simulation Conference).
 
-More on the conceptual model is at ([README-AppA.md](README-AppA.md)) or https://ssrn.com/abstract_id=3570406.
-
-More examples of USAGE of the tool is at ([README-AppB.md](README-AppB.md))
+More on adaptation of the conceptual model to the context of COVID is at ([README-AppA.md](README-AppA.md)) or https://ssrn.com/abstract_id=3570406.
 
 Software provided "as is". Support not provided, feedback to icucovidcap@gmail.com (please also let us know if it helped).
 

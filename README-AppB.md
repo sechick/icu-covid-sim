@@ -15,7 +15,7 @@ This repository contains R/Rstudio/Shiny implementation of the decision support 
 
 The application has been deployed at: https://andres-alban.shinyapps.io/icu-covid-sim/.
 
-The main readme for this repo is ([README.md](README.md).
+The main readme for this repo is ([README.md](README.md)).
 
 # Appendix B: Example Usage of icu-covid-sim
 
@@ -23,17 +23,21 @@ This ICU decision support tool for ICU capacity planning for COVID crisis is des
 
 The model provides statistics assuming that one set of ICU beds is reserved for COVID-19 patients, and another set of beds is reserved for non-COVID-19 patients (also called ‘Other patients’). The model is implemented in the R programming language (R Core Team 2020) using RStudio (RStudio Team 2019) and RShiny (Chang et al 2020) and is provided as is without warranty. The model was made available at https://andres-alban.shinyapps.io/icu-covid-sim/.
 
-## Inputs to describe the model:
+## Inputs to describe the model: Simplest case
+
+Inputs involve a range of potential ICU beds dedicated to COVID-19 patients ato to other patients separately. Demand for resources are also described separately for Other patients and for COVID-19 patients
+
+Default values for COVID-19 ICU length of stay distribution is based on Wuhan data. You can edit that to adapt it to your local condition.
+
+For the simplest scenario, we assume that all non-COVID ICU patients are unplanned urgent patients with a single statistical distribution. This may be reasonable when there all non-urgent planned elective surgeries are cancelled, for example.
+
+For the more complicated case of several streams of non-COVID patients with different statistical distributions for ICU care, please see the 'Advanced case' below.
 
 ### Capacity: 
 
 The number of ICU beds for COVID-19 patients is specified separately from the number of ICU beds for Other patients. The assumption is that patients are routed based on COVID-19 status, so that Other patients do not use beds dedicated for COVID-19 patients and vice versa. 
 
-### Demand: 
-
-Demand for resources are described separately for Other patients and for COVID-19 patients
-
-#### Demand from Other patients. 
+### Demand from Other patients. 
 
 The average daily arrival rate is input as a daily arrival rate. Arrivals are assumed to be spaced out with exponentially distributed inter-arrival times, which means that a Poisson random variable number of patients arrive each day. This assumption is consistent with random arrivals in a large population of independent demands for unplanned urgent (Law and Kelton 2007). 
 
@@ -41,7 +45,9 @@ The length of stay (LOS) distribution is specified with user input for the media
 
 A base case would be to aggregate all unplanned non-COVID patients into one group of patients. (Optional advanced: To describe two or more streams of unplanned non-COVID patients, the arrival rates and length of stay distributions for those streams should be separated by commas.)
 
-Demand from COVID-19 patients. Arrival rates for COVID-19 patients are specified separately, so that the performance of the ICUs can be assessed as a function of the arrival rates and ICU bed capacity.
+### Demand from COVID-19 patients. 
+
+Arrival rates for COVID-19 patients are specified separately, so that the performance of the ICUs can be assessed as a function of the arrival rates and ICU bed capacity.
 
 The LOS distributions for COVID-19 patients are assumed to be log-logistic (if median and IQR are entered) or lognormal (if mean and sd are entered) with parameters which may differ from the non-COVID patients. LOS for individual patients is truncated at 28 days for purposes of the analysis.  For the analysis reported in the paper for Amsterdam UMC, site AMC, we used data from recent literature for COVID-19 positive patients (Zhou et al 2020): LOS with median of 8 days, IQR=8 days, with log-logistic distribution capped at 28 days.
 
@@ -59,11 +65,35 @@ Reducing the referral rate can be achieved, on average, by increasing the capaci
 
 Theoretical means are plotted together with bars that represent one standard deviation of values computed over a sequence of 2 months in the reported analysis and the user input in the online application. They are not standard errors for estimates of the means (which are computed exactly from theoretical steady-state queueing analysis). Instead, they represent variations in the patient throughput rates, fraction of occupied beds, and fraction of referrals (due to bed blocking). 
 
-## Other results
+## Inputs to describe the model: Advanced case
 
-We present additional results done during initial assessments prior to ramp-up of the COVID-19 pandemic. 
+For this example, we show how to allow for multiple streams of non-COVID ICU patients who may consume non-COVID ICU bed capacity. For example, if there are multiple specialisms with continued potential demand and which have different LOS distributions.
 
-Figure S1 displays the referral rate for COVID-19 and for other patient assuming a 24 bed ICU capacity were available. The bars for ‘specialized’ assume that COVID-19 ICU patients have a dedicated space of 15 beds and 9 beds are combined in a resource pool for all other ICU patients. Performance characteristics assume an average ICU arrival rate of 1 COVID-19 patient per day and 2 non-COVID-19 per day, to provide insights for conditions as of 26 March 2020. The bars for ‘general’ assume that all patients use a single pool of resources (for load balancing), under the unreasonable assumption that patients can be mixed. The results are nonetheless interesting operationally, as it assesses that ICU demand for both COVID-19 and other care needs, on average, an increase in need for referral from 3.8% to 8.2%, on average, due to the need to isolate COVID-19 patients (left panel). The right panel shows an average capacity utilization level of approximately 75% on average, with slightly higher average utilization for COVID-19 patients, at the stated resource levels. Actual bed occupancy varies with variation in arrival rates and individual LOS, thus causing some needs for referrals to other facilities at times when the ICU is full. 
+
+FIX ANDRES PLEASE FIX THIS!
+
+
+## Additional settings:
+
+### Number of periods
+
+
+FIX ANDRES PLEASE FIX THIS!
+
+### Period length in simulation days
+
+
+FIX ANDRES PLEASE FIX THIS!
+
+### Number of values of numbers of beds to evaluate
+
+
+FIX ANDRES PLEASE FIX THIS!
+
+### Number of values of COVID-19 arrival rates to evaluate
+
+
+FIX ANDRES PLEASE FIX THIS!
 
 ## References:
 

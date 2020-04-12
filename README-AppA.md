@@ -15,7 +15,7 @@ This repository contains R/Rstudio/Shiny implementation of the decision support 
 
 The application has been deployed at: https://andres-alban.shinyapps.io/icu-covid-sim/.
 
-The main readme for this repo is ([README.md](README.md).
+The main readme for this repo is ([README.md](README.md)).
 
 
 # Appendix A: More background on conceptual model 
@@ -23,6 +23,7 @@ The main readme for this repo is ([README.md](README.md).
 This ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation).
 
 See also https://ssrn.com/abstract_id=3570406.
+
 
 ## Abstract
 
