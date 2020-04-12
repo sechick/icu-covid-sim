@@ -23,23 +23,51 @@ This ICU decision support tool for ICU capacity planning for COVID crisis is des
 
 The model provides statistics assuming that one set of ICU beds is reserved for COVID-19 patients, and another set of beds is reserved for non-COVID-19 patients (also called ‘Other patients’). The model is implemented in the R programming language (R Core Team 2020) using RStudio (RStudio Team 2019) and RShiny (Chang et al 2020) and is provided as is without warranty. The model was made available at https://andres-alban.shinyapps.io/icu-covid-sim/.
 
-COVID-19 inputs are: ![icu-covid-inputs](icu-covid-inputs.png)
+Parameters are entered as follows.
 
 <p align="center">
-  <img src="icu-covid-inputs.png" width="350" alt="accessibility text">
-  <img src="icu-noncovid-inputs.png" width="350" alt="accessibility text">
+  <img src="icu-covid-inputs.png" width="300" alt="accessibility text">
+  <img src="icu-noncovid-inputs.png" width="300" alt="accessibility text">
 </p>
-
-<p align="center">
-  <img src="icu-additional-params.png" width="350" title="hover text">
-</p>
-
 
 ## Inputs to describe the model: Simplest case
 
-Inputs involve a range of potential ICU beds dedicated to COVID-19 patients ato to other patients separately. Demand for resources are also described separately for Other patients and for COVID-19 patients
+Click the 'Simulate' button only AFTER all parameter values have been set. Simulation results may take up to a minute to appear.
+
+### Parameters for COVID-19 patients.
+
+#### Arrival rate (patients per day)
+
+Select a lower and upper bound to test for the average arrival rate of patients per day. We understand this may vary as the pandemic evolves. This is for testing a range of values that the facility might face in terms of demand for its services.
+
+Technical note: we assume arrivals are a Poisson process (in other words, with exponentially distributed interarrival times).
+
+#### LOS input type.
+
+To compute the burden on ICU resources for COVID-19 patients, specify the length of stay (LOS) distribution. This can be specified in one of two different ways.
+
+Median (IQR): assumes a log-logistic distribution for LOS with the given median, and interquartile range (25% to 75% range)
+
+Mean (sd): assumes a lognormal distribution for LOS, such the LOS for patients will have the given mean and standard deviation.
 
 Default values for COVID-19 ICU length of stay distribution is based on Wuhan data. You can edit that to adapt it to your local condition.
+
+#### Beds allocated to COVID-19 patients
+
+Specify the range of beds under consideration for capacity expansion to handle COVID-19 patients.
+
+
+### Parameters for non-COVID-19 patients.
+
+Parameters for the ICU capacity and usage for non-COVID-19 patients is handled slightly differently. This is because these rates might be more controllable, for example by cancelling elective or nonurgent surgeries.
+
+#### Simplest case: one stream of non-COVID-19 patients
+
+Specify the AVERAGE arrival rate per day of non-COVID-19 patients. These are assumed to arrive as a Poisson process (exponentially distributed interarrival times), so the number of arrivals in a day varies around the specified mean rate. Poisson process makes sense under the assumption that scheduled planned surgeries are cancelled.
+
+LOS distributions can be specified for non-COVID-19 patients with a different distribution as compared to COVID-19 patients, but with a similar interface.
+
+You can also specify a range of number of beds for non-COVID-19 patients to test.
 
 For the simplest scenario, we assume that all non-COVID ICU patients are unplanned urgent patients with a single statistical distribution. This may be reasonable when there all non-urgent planned elective surgeries are cancelled, for example. For the more complicated case of several streams of non-COVID patients with different statistical distributions for ICU care, please see the 'Advanced case' below.
 
@@ -63,6 +91,8 @@ The LOS distributions for COVID-19 patients are assumed to be log-logistic (if m
 
 ## Outputs from the model:
 
+Click 'Simulate' once the inputs are selected. This may take a moment.
+
 We compute outputs using theoretical results for queuing analysis (M/G/c/c queues) where possible, and otherwise compute results using Monte Carlo/stochastic simulations to estimate or to provide a sense of variation above and below theoretical mean values (Law and Kelton 2007). The outputs from the simulation model for the analysis reported in the paper are computed from steady-state simulations of 20 periods of 2 months each. The defaults model uses 20 periods of 14 days each that can be adjusted in the additional settings of the model.
 
 Performance metrics computed include:
@@ -75,35 +105,40 @@ Reducing the referral rate can be achieved, on average, by increasing the capaci
 
 Theoretical means are plotted together with bars that represent one standard deviation of values computed over a sequence of 2 months in the reported analysis and the user input in the online application. They are not standard errors for estimates of the means (which are computed exactly from theoretical steady-state queueing analysis). Instead, they represent variations in the patient throughput rates, fraction of occupied beds, and fraction of referrals (due to bed blocking). 
 
+## Additional settings:
+
+The simulations can be further controlled using several additional parameters.
+
+<p align="center">
+  <img src="icu-additional-params.png" width="300" title="hover text">
+</p>
+
+FIX ANDRES PLEASE REVIEW AND FIX THIS! SWITCH ORDER OF PERIOD LENGTH AND NUM PERIODS? PLEASE USE FEEDBACK FROM REFEREES TO UPDATE.
+
+### Number of periods
+
+Number of periods says how many time periods are simulated to compute the standard deviation of the process statistics mentioned above (percent utilization, rate of ICU patients which can be treated). 
+
+### Period length in simulation days
+
+The period length is the number of days for which statistics for percent utilization are computed with simulations. For example, 14 days means that the average utilization, or average number of ICU patients treated, is computed over a 14 day window, for purposes of displaying variability above and below the theoretical percent utlization or number of patients treated.
+
+### Number of values of numbers of beds to evaluate
+
+FIX:
+
+### Number of values of COVID-19 arrival rates to evaluate
+
+FIX
+
 ## Inputs to describe the model: Advanced case
 
 For this example, we show how to allow for multiple streams of non-COVID ICU patients who may consume non-COVID ICU bed capacity. For example, if there are multiple specialisms with continued potential demand and which have different LOS distributions.
 
 
-FIX ANDRES PLEASE FIX THIS!
+FIX ANDRES PLEASE GIVE AN EXAMPLE OF SPECIFYING TWO STREAMS.
 
 
-## Additional settings:
-
-### Number of periods
-
-
-FIX ANDRES PLEASE FIX THIS!
-
-### Period length in simulation days
-
-
-FIX ANDRES PLEASE FIX THIS!
-
-### Number of values of numbers of beds to evaluate
-
-
-FIX ANDRES PLEASE FIX THIS!
-
-### Number of values of COVID-19 arrival rates to evaluate
-
-
-FIX ANDRES PLEASE FIX THIS!
 
 ## References:
 
