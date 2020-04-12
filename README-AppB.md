@@ -34,6 +34,9 @@ Parameters are entered as follows.
 
 Click the 'Simulate' button only AFTER all parameter values have been set. Simulation results may take up to a minute to appear.
 
+The number of ICU beds, arrival rates, and length of stay (LOS) statistics for COVID-19 patients is specified separately from the information from non-COVID-19 patients. The assumption is that patients are routed based on COVID-19 status. ICU beds dedicated for COVID-19 patients are not used for non-COVID-19 patients and vice versa. 
+
+
 ### Parameters for COVID-19 patients.
 
 #### Arrival rate (patients per day)
@@ -41,6 +44,7 @@ Click the 'Simulate' button only AFTER all parameter values have been set. Simul
 Select a lower and upper bound to test for the average arrival rate of patients per day. We understand this may vary as the pandemic evolves. This is for testing a range of values that the facility might face in terms of demand for its services.
 
 Technical note: we assume arrivals are a Poisson process (in other words, with exponentially distributed interarrival times).
+
 
 #### LOS input type.
 
@@ -50,7 +54,7 @@ Median (IQR): assumes a log-logistic distribution for LOS with the given median,
 
 Mean (sd): assumes a lognormal distribution for LOS, such the LOS for patients will have the given mean and standard deviation.
 
-Default values for COVID-19 ICU length of stay distribution is based on Wuhan data. You can edit that to adapt it to your local condition.
+Default values for the LOS distributions for COVID-19 patients are assumed to be log-logistic (if median and IQR are entered) or lognormal (if mean and sd are entered) with parameters which may differ from the non-COVID patients. LOS for individual patients is truncated at 28 days for purposes of the analysis.  For the analysis reported in the paper for Amsterdam UMC, site AMC, we used data from recent literature for COVID-19 positive patients (Zhou et al 2020): LOS with median of 8 days, IQR=8 days, with log-logistic distribution capped at 28 days. You can edit that to adapt it to your local condition.
 
 #### Beds allocated to COVID-19 patients
 
@@ -71,39 +75,32 @@ You can also specify a range of number of beds for non-COVID-19 patients to test
 
 For the simplest scenario, we assume that all non-COVID ICU patients are unplanned urgent patients with a single statistical distribution. This may be reasonable when there all non-urgent planned elective surgeries are cancelled, for example. For the more complicated case of several streams of non-COVID patients with different statistical distributions for ICU care, please see the 'Advanced case' below.
 
-### Capacity: 
 
-The number of ICU beds for COVID-19 patients is specified separately from the number of ICU beds for Other patients. The assumption is that patients are routed based on COVID-19 status, so that Other patients do not use beds dedicated for COVID-19 patients and vice versa. 
+FIXED TO HERE:
 
-### Demand from Other patients. 
 
-The average daily arrival rate is input as a daily arrival rate. Arrivals are assumed to be spaced out with exponentially distributed inter-arrival times, which means that a Poisson random variable number of patients arrive each day. This assumption is consistent with random arrivals in a large population of independent demands for unplanned urgent (Law and Kelton 2007). 
+### Additional comments:
 
-The length of stay (LOS) distribution is specified with user input for the median and interquartile range (IQR) or the mean and standard deviation (sd). The length of stay (LOS) distribution for non-COVID patients is assumed to be log-logistic if median (IQR) is specified, or lognormal if mean (sd) is specified. LOS for individual patients is truncated at 200 days for purposes of the analysis. In the analysis reported in the paper for Amsterdam UMC, site AMC, all ICU demand for planned care was presumed to be 0 due to cancellations of procedures. Only historical urgent ICU demand patterns were modelled with a lognormal distribution with mean 4.36 and sd 8.95 (this corresponds to a log-mean 0.52 and log-sd 1.46). The model allows several patient flows for different specialisms, each with a different arrival rate, and different LOS distribution.
+LOS for individual patients is truncated at 200 days for purposes of the analysis. In the analysis reported in the paper for Amsterdam UMC, site AMC, all ICU demand for planned care was presumed to be 0 due to cancellations of procedures. Only historical urgent ICU demand patterns were modelled with a lognormal distribution with mean 4.36 and sd 8.95 (this corresponds to a log-mean 0.52 and log-sd 1.46). The model allows several patient flows for different specialisms, each with a different arrival rate, and different LOS distribution.
 
-A base case would be to aggregate all unplanned non-COVID patients into one group of patients. (Optional advanced: To describe two or more streams of unplanned non-COVID patients, the arrival rates and length of stay distributions for those streams should be separated by commas.)
-
-### Demand from COVID-19 patients. 
-
-Arrival rates for COVID-19 patients are specified separately, so that the performance of the ICUs can be assessed as a function of the arrival rates and ICU bed capacity.
-
-The LOS distributions for COVID-19 patients are assumed to be log-logistic (if median and IQR are entered) or lognormal (if mean and sd are entered) with parameters which may differ from the non-COVID patients. LOS for individual patients is truncated at 28 days for purposes of the analysis.  For the analysis reported in the paper for Amsterdam UMC, site AMC, we used data from recent literature for COVID-19 positive patients (Zhou et al 2020): LOS with median of 8 days, IQR=8 days, with log-logistic distribution capped at 28 days.
 
 ## Outputs from the model:
 
 Click 'Simulate' once the inputs are selected. This may take a moment.
 
-We compute outputs using theoretical results for queuing analysis (M/G/c/c queues) where possible, and otherwise compute results using Monte Carlo/stochastic simulations to estimate or to provide a sense of variation above and below theoretical mean values (Law and Kelton 2007). The outputs from the simulation model for the analysis reported in the paper are computed from steady-state simulations of 20 periods of 2 months each. The defaults model uses 20 periods of 14 days each that can be adjusted in the additional settings of the model.
+We compute outputs using theoretical results for queuing analysis (M/G/c/c queues) where possible, and otherwise compute results using Monte Carlo/stochastic simulations to estimate or to provide a sense of variation above and below theoretical mean values (Law and Kelton 2007). The outputs from the simulation model for the analysis reported in the paper are computed from steady-state simulations of 20 periods of 2 months each. The defaults model uses 10 periods of 14 days each that can be adjusted in the additional settings of the model.
 
 Performance metrics computed include:
 
 •	Referral rates, for each of COVID-19 and Non-COVID-19 beds, defined to be the fraction of patients who need to be referred to another hospital due to capacity issues.
+
 •	Throughput rate, for each of COVID-19 and Non-COVID-19 beds, defined as the number of patients per day that can go through the system.
+
 •	Occupancy rates, for each of COVID-19 and Non-Covid-19 beds, defined to be the fraction of beds occupied on average through time. 
 
 Reducing the referral rate can be achieved, on average, by increasing the capacity or by decreasing the lengths of stay, for example. Statistical fluctuation can increase or decrease bed counts through time. The throughput rate increases with the arrival rate provided that enough beds are in place to maintain a low referral rate. Occupancy rates can inform decisions for initial capacity expansion plans, or for planning for potential ability to respond to additional spikes in demand.
 
-Theoretical means are plotted together with bars that represent one standard deviation of values computed over a sequence of 2 months in the reported analysis and the user input in the online application. They are not standard errors for estimates of the means (which are computed exactly from theoretical steady-state queueing analysis). Instead, they represent variations in the patient throughput rates, fraction of occupied beds, and fraction of referrals (due to bed blocking). 
+Theoretical means are plotted together with bars that represent one standard deviation of values computed over a sequence of time periods whose number and length is specified by the parameters in 'additional settings'. They are not standard errors for estimates of the means (which are computed exactly from theoretical steady-state queueing analysis). Instead, they represent variations in the patient throughput rates, fraction of occupied beds, and fraction of referrals (due to bed blocking). 
 
 ## Additional settings:
 
