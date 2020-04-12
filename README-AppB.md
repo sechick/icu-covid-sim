@@ -23,7 +23,7 @@ This ICU decision support tool for ICU capacity planning for COVID crisis is des
 
 The model provides statistics assuming that one set of ICU beds is reserved for COVID-19 patients, and another set of beds is reserved for non-COVID-19 patients (also called ‘Other patients’). The model is implemented in the R programming language (R Core Team 2020) using RStudio (RStudio Team 2019) and RShiny (Chang et al 2020) and is provided as is without warranty. The model was made available at https://andres-alban.shinyapps.io/icu-covid-sim/.
 
-COVID-19 inputs are: ([icu-covid-inputs.png](icu-covid-inputs.png))
+COVID-19 inputs are: ![icu-covid-inputs](icu-covid-inputs.png)
 
 ## Inputs to describe the model: Simplest case
 
