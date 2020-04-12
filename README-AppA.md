@@ -4,7 +4,7 @@
 
 Andres Alban*; Stephen E Chick*, PhD; Dave A. Dongelmans**, MD, PhD; Alexander F. van der Sluijs**, MD; W. Joost Wiersinga**** MD, PhD, MBA; Alexander P.J. Vlaar**, MD, PhD, MBA; Danielle Sent***, PhD
 
- * INSEAD Technology and Operations Management
+ *INSEAD Technology and Operations Management
 ** Amsterdam UMC (location AMC) Intensive Care Medicine
 *** Amsterdam UMC (location AMC) Medical Informatics
 **** Amsterdam UMC (location AMC) Infectious Disease Medicine

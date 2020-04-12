@@ -4,7 +4,7 @@
 
 Andres Alban*; Stephen E Chick*, PhD; Dave A. Dongelmans**, MD, PhD; Alexander F. van der Sluijs**, MD; W. Joost Wiersinga**** MD, PhD, MBA; Alexander P.J. Vlaar**, MD, PhD, MBA; Danielle Sent***, PhD
 
-* INSEAD Technology and Operations Management
+ *INSEAD Technology and Operations Management
 ** Amsterdam UMC (location AMC) Intensive Care Medicine
 *** Amsterdam UMC (location AMC) Medical Informatics
 **** Amsterdam UMC (location AMC) Infectious Disease Medicine
@@ -23,15 +23,15 @@ This ICU decision support tool for ICU capacity planning for COVID crisis is des
 
 The model provides statistics assuming that one set of ICU beds is reserved for COVID-19 patients, and another set of beds is reserved for non-COVID-19 patients (also called ‘Other patients’). The model is implemented in the R programming language (R Core Team 2020) using RStudio (RStudio Team 2019) and RShiny (Chang et al 2020) and is provided as is without warranty. The model was made available at https://andres-alban.shinyapps.io/icu-covid-sim/.
 
+COVID-19 inputs are: ([icu-covid-inputs.png](icu-covid-inputs.png))
+
 ## Inputs to describe the model: Simplest case
 
 Inputs involve a range of potential ICU beds dedicated to COVID-19 patients ato to other patients separately. Demand for resources are also described separately for Other patients and for COVID-19 patients
 
 Default values for COVID-19 ICU length of stay distribution is based on Wuhan data. You can edit that to adapt it to your local condition.
 
-For the simplest scenario, we assume that all non-COVID ICU patients are unplanned urgent patients with a single statistical distribution. This may be reasonable when there all non-urgent planned elective surgeries are cancelled, for example.
-
-For the more complicated case of several streams of non-COVID patients with different statistical distributions for ICU care, please see the 'Advanced case' below.
+For the simplest scenario, we assume that all non-COVID ICU patients are unplanned urgent patients with a single statistical distribution. This may be reasonable when there all non-urgent planned elective surgeries are cancelled, for example. For the more complicated case of several streams of non-COVID patients with different statistical distributions for ICU care, please see the 'Advanced case' below.
 
 ### Capacity: 
 
