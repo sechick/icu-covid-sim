@@ -1,0 +1,13 @@
+name: icu-covid-sim
+title: icu-covid-sim
+username:
+account: andres-alban
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2025029
+bundleId: 2988358
+url: https://andres-alban.shinyapps.io/icu-covid-sim/
+when: 1586373803.10053
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|defaultInputs.Rdata
