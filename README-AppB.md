@@ -25,6 +25,16 @@ The model provides statistics assuming that one set of ICU beds is reserved for 
 
 COVID-19 inputs are: ![icu-covid-inputs](icu-covid-inputs.png)
 
+<p align="center">
+  <img src="icu-covid-inputs.png" width="350" alt="accessibility text">
+  <img src="icu-noncovid-inputs.png" width="350" alt="accessibility text">
+</p>
+
+<p align="center">
+  <img src="icu-additional-params.png" width="350" title="hover text">
+</p>
+
+
 ## Inputs to describe the model: Simplest case
 
 Inputs involve a range of potential ICU beds dedicated to COVID-19 patients ato to other patients separately. Demand for resources are also described separately for Other patients and for COVID-19 patients
