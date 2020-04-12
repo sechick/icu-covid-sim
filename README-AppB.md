@@ -1,4 +1,4 @@
-# ICU capacity management during the COVID-19 pandemic using a process simulation 
+# ICU capacity management during the COVID-19 pandemic using a process simulation (icu-covid-sim)
 
 ## AUTHORS: 
 
@@ -17,13 +17,9 @@ The application has been deployed at: https://andres-alban.shinyapps.io/icu-covi
 
 The main readme for this repo is ([README.md](README.md).
 
-## icu-covid-sim
+# Appendix B: Example Usage of icu-covid-sim
 
 This ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation).
-
-
-
-# Appendix B: Example Usage of icu-covid-sim
 
 The model provides statistics assuming that one set of ICU beds is reserved for COVID-19 patients, and another set of beds is reserved for non-COVID-19 patients (also called ‘Other patients’). The model is implemented in the R programming language (R Core Team 2020) using RStudio (RStudio Team 2019) and RShiny (Chang et al 2020) and is provided as is without warranty. The model was made available at https://andres-alban.shinyapps.io/icu-covid-sim/.
 

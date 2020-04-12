@@ -1,10 +1,10 @@
-# ICU capacity management during the COVID-19 pandemic using a process simulation 
+# ICU capacity management during the COVID-19 pandemic using a process simulation (icu-covid-sim)
 
 ## AUTHORS: 
 
 Andres Alban*; Stephen E Chick*, PhD; Dave A. Dongelmans**, MD, PhD; Alexander F. van der Sluijs**, MD; W. Joost Wiersinga**** MD, PhD, MBA; Alexander P.J. Vlaar**, MD, PhD, MBA; Danielle Sent***, PhD
 
-* INSEAD Technology and Operations Management
+ * INSEAD Technology and Operations Management
 ** Amsterdam UMC (location AMC) Intensive Care Medicine
 *** Amsterdam UMC (location AMC) Medical Informatics
 **** Amsterdam UMC (location AMC) Infectious Disease Medicine
@@ -17,12 +17,10 @@ The application has been deployed at: https://andres-alban.shinyapps.io/icu-covi
 
 The main readme for this repo is ([README.md](README.md).
 
-## icu-covid-sim
-
-This ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation).
-
 
 # Appendix A: More background on conceptual model 
+
+This ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation).
 
 See also https://ssrn.com/abstract_id=3570406.
 
