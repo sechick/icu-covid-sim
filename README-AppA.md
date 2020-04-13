@@ -33,17 +33,14 @@ Epidemiological models for the current COVID-19 pandemic [1] and related communi
 
 The ability of care systems to confront the COVID-19 outbreak is a question of effective matching of the supply of resources with the demand of care, including that for ICUs. Halting elective nonurgent care demand can convert existing capacity, as might the creative use of discharge from ICU patients to other flexible resources when deemed appropriate. Despite these and other creative process improvements in ICUs [8], much more supply may be needed as the COVID-19 arrival rate increases. Measures considered include conversion of Post Anaesthesia Care Unit (PACU) space to ICU space, supported by OR teams to support ICU activities, implementation of emergency medical tents, or more generally learnings from prior reports following an influenza epidemic [9]. For example, the Amsterdam University Medical Centers, location AMC, has increased ICU capacity from 28 beds during regular times to 59 beds at location AMC, at the moment, in anticipation of a potentially massive increase in COVID-19 patients requiring ICU care.
 
-10. Rhodes, A., Ferdinande, P., Flaatten, H. et al. The variability of critical care bed numbers in Europe. Intensive Care Med 38, 1647–1653 (2012). https://doi.org/10.1007/s00134-012-2627-8
-
-
-We provide a supply-side simulation model of ICU capacity, as a complement to the demand-side epidemiological models, to help support ICU capacity expansion decisions in order to match treatment capacity with treatment demand. The need for such a tool customized to support local and regional decision making is highlighted by the high variability of critical care bed numbers across geographies, for example see [10] for Europe.
-The model allows ICU managers to assess performance metrics as a function of the number of fully resourced ICU beds for COVID-19 and non-COVID-19 patients and the rate of COVID-19 patients presenting to the ICU. Performance metrics include the bed occupancy rates, the probability of needing to refer a patient to other facilities due to capacity constraints, and throughput rates. This work, therefore, contributes to the health care operations management and simulation fields [11,12].
+We provide a supply-side simulation model of ICU capacity, as a complement to the demand-side epidemiological models, to help support ICU capacity expansion decisions in order to match treatment capacity with treatment demand. The need for such a tool customized to support local and regional decision making is highlighted by the high variability of critical care bed numbers across geographies [10-11].
+The model allows ICU managers to assess performance metrics as a function of the number of fully resourced ICU beds for COVID-19 and non-COVID-19 patients and the rate of COVID-19 patients presenting to the ICU. Performance metrics include the bed occupancy rates, the probability of needing to refer a patient to other facilities due to capacity constraints, and throughput rates. This work, therefore, contributes to the health care operations management and simulation fields [12-14].
 
 ## Methods
 
-We adapted a previously developed computer simulation model [13] of patient occupancy of ICUs to support hospitals in their capacity decisions for how many beds should be allocated to COVID-19 and non-COVID-19 patients, in the presence of ongoing random arrivals of urgent, unplanned ICU patients. Because lengths of stay (LOS) and demand streams for ICU care needs have statistical variation, we use a stochastic queuing model for patient flows in the ICU, consistent with guidance on assessing cost-benefit analysis for health technology assessment [14].
+We adapted a previously developed computer simulation model [15] of patient occupancy of ICUs to support hospitals in their capacity decisions for how many beds should be allocated to COVID-19 and non-COVID-19 patients, in the presence of ongoing random arrivals of urgent, unplanned ICU patients. Because lengths of stay (LOS) and demand streams for ICU care needs have statistical variation, we use a stochastic queuing model for patient flows in the ICU, consistent with guidance on assessing cost-benefit analysis for health technology assessment [16].
 
-The statistical distribution on LOS for non-COVID patients was adapted from AMC ICU data on patient admissions and rejections for the years 2015-2016. We adapted the distribution for COVID-19 patients from recent literature [15]: LOS with a median of 8 days, and an interquartile range (IQR) of 8 days, with log-logistic distribution, capped at 28 days.
+The statistical distribution on LOS for non-COVID patients was adapted from AMC ICU data on patient admissions and rejections for the years 2015-2016. We adapted the distribution for COVID-19 patients from recent literature [17]: LOS with a median of 8 days, and an interquartile range (IQR) of 8 days, with log-logistic distribution, capped at 28 days.
 
 We varied the number of ICU beds for two resources, one designed to handle urgent, unplanned ICU cases that the AMC ICU would normally receive, and another designed to respond to the COVID-19 crisis. As mentioned earlier, nonurgent planned patients were rescheduled, so they did not consume ICU resources during the simulated period.
 
@@ -101,33 +98,37 @@ AA, SEC, DS: developed mathematical model. AA: ran computer experiments. SEC: fi
 
 ## References
 
-1. Ferguson, N, et al., 2020, Impact of non-pharmaceutical interventions (NPIs) to reduce COVID19 mortality and healthcare demand, Imperial College London. https://doi.org/10.25561/77482
+1. Ferguson, N, et al. (2020) Impact of non-pharmaceutical interventions (NPIs) to reduce COVID19 mortality and healthcare demand, Imperial College London. https://doi.org/10.25561/77482
 
-2. Halloran, M. Elizabeth, Neil M. Ferguson, Stephen Eubank, Ira M. Longini Jr., Derek AT Cummings, Bryan Lewis, Shufu Xu, Christophe Fraser, Anil Vullikanti, Timothy C. Germann, Diane Wagener, Richard Beckman, Kai Kadau, Chris Barrett, Catherine A. Macken, Donald S. Burke, and Philip Cooley, 2008, Modeling targeted layered containment of an influenza pandemic in the United States, PNAS March 25, 2008 105 (12) 4639-4644; https://doi.org/10.1073/pnas.0706849105
+2. Halloran, M. Elizabeth, Neil M. Ferguson, Stephen Eubank, Ira M. Longini Jr., Derek AT Cummings, Bryan Lewis, Shufu Xu, Christophe Fraser, Anil Vullikanti, Timothy C. Germann, Diane Wagener, Richard Beckman, Kai Kadau, Chris Barrett, Catherine A. Macken, Donald S. Burke, and Philip Cooley (2008) Modeling targeted layered containment of an influenza pandemic in the United States, PNAS March 25, 2008 105 (12) 4639-4644; https://doi.org/10.1073/pnas.0706849105
 
-3. Koopman JS, G Jacquez, SE Chick, 2001, New Data and Tools for Integrating Discrete and Continuous Population Modeling Strategies, In Population Health and Aging: Strengthening the Dialog between Epidemiology and Demography.  M. Weinstein, A. Hermalin, M.A. Stoto Eds. Annals of the New York Academy of Sciences, 954: 268-294. https://doi.org/10.1111/j.1749-6632.2001.tb02756.x
+3. Koopman JS, G Jacquez, SE Chick (2001) New Data and Tools for Integrating Discrete and Continuous Population Modeling Strategies, In Population Health and Aging: Strengthening the Dialog between Epidemiology and Demography.  M. Weinstein, A. Hermalin, M.A. Stoto Eds. Annals of the New York Academy of Sciences, 954: 268-294. https://doi.org/10.1111/j.1749-6632.2001.tb02756.x
 
-4. Fraser, C, S Riley, RM Anderson, NM Ferguson, 2004, Factors that make an infectious disease outbreak controllable, PNAS April 20, 2004 101 (16) 6146-6151; https://doi.org/10.1073/pnas.0307506101
+4. Fraser, C, S Riley, RM Anderson, NM Ferguson (2004) Factors that make an infectious disease outbreak controllable, PNAS April 20, 2004, 101(16) 6146-6151; https://doi.org/10.1073/pnas.0307506101
 
-5. Germann, TC, K Kadau, IM Longini, Jr., CA Macken, 2006, Mitigation strategies for pandemic influenza in the United States, PNAS 103(15):5935-5940. https://www.pnas.org/content/103/15/5935
+5. Germann, TC, K Kadau, IM Longini, Jr., CA Macken (2006) Mitigation strategies for pandemic influenza in the United States, PNAS 103(15):5935-5940. https://www.pnas.org/content/103/15/5935
 
-6. Barnaby EY, et al, Singapore 2019 Novel Coronavirus Outbreak Research Team, 2020, Epidemiologic Features and Clinical Course of Patients Infected With SARS-CoV-2 in Singapore, JAMA. Published online March 3, 2020. https://jamanetwork.com/journals/jama/fullarticle/2762688
+6. Barnaby EY, et al, Singapore 2019 Novel Coronavirus Outbreak Research Team (2020) Epidemiologic Features and Clinical Course of Patients Infected With SARS-CoV-2 in Singapore, JAMA. Published online March 3, 2020. https://jamanetwork.com/journals/jama/fullarticle/2762688
 
-7. Wein, LM, DL Craft, Edward H Kaplan, 2003, Emergency response to an anthrax attack. PNAS April 1, 2003 100 (7) 4346-351; https://doi.org/10.1073/pnas.0636861100
+7. Wein, LM, DL Craft, Edward H Kaplan (2003) Emergency response to an anthrax attack. PNAS April 1, 2003 100 (7) 4346-351; https://doi.org/10.1073/pnas.0636861100
 
-8. van der Sluijs AF, ER van Slobbe-Bijlsma, SE Chick, MB Vroom, DA Dongelmans, APJ Vlaar, 2017, The impact of changes in intensive care organization on patient outcome and cost effectiveness - A narrative review, Journal of Intensive Care, 5(13). https://dx.doi.org/10.1186/s40560-016-0207-7
+8. van der Sluijs AF, ER van Slobbe-Bijlsma, SE Chick, MB Vroom, DA Dongelmans, APJ Vlaar (2017) The impact of changes in intensive care organization on patient outcome and cost effectiveness - A narrative review, Journal of Intensive Care, 5(13). https://dx.doi.org/10.1186/s40560-016-0207-7
 
-9. Sprung, C.L., Zimmerman, J.L., Christian, M.D. et al. Recommendations for intensive care unit and hospital preparations for an influenza epidemic or mass disaster: summary report of the European Society of Intensive Care Medicine’s Task Force for intensive care unit triage during an influenza epidemic or mass disaster. Intensive Care Med 36, 428–443 (2010). https://doi.org/10.1007/s00134-010-1759-y
+9. Sprung, C.L., Zimmerman, J.L., Christian, M.D. et al. (2010) Recommendations for intensive care unit and hospital preparations for an influenza epidemic or mass disaster: summary report of the European Society of Intensive Care Medicine’s Task Force for intensive care unit triage during an influenza epidemic or mass disaster. Intensive Care Med 36, 428–443. https://doi.org/10.1007/s00134-010-1759-y
 
-10. Rhodes, A., Ferdinande, P., Flaatten, H. et al. The variability of critical care bed numbers in Europe. Intensive Care Med 38, 1647–1653 (2012). https://doi.org/10.1007/s00134-012-2627-8
+10. Rhodes, A., Ferdinande, P., Flaatten, H. et al. (2012) The variability of critical care bed numbers in Europe. Intensive Care Med 38, 1647–1653. https://doi.org/10.1007/s00134-012-2627-8
 
-11. Jun, J.B., Jacobson, S.H., Swisher, J.R., 1999, Applications of Discrete Event Simulation in Health Care Clinics: A Survey, Journal of the Operational Research Society, 50(2), 109-123.
+11. Austin, S., Murthy, S., Wunsch, H. et al.  (2014) Access to urban acute care services in high- vs. middle-income countries: an analysis of seven cities. Intensive Care Med 40, 342–352. https://doi.org/10.1007/s00134-013-3174-7
 
-12. Brandeau ML, Sainfort F, and WP Pierskalla, Eds. Operations Research and Health Care: A Handbook of Methods and Applications. Kluwer Academic Publishers, Norwell, MA, 2004.
+12. Jun, J.B., Jacobson, S.H., Swisher, J.R. (1999) Applications of Discrete Event Simulation in Health Care Clinics: A Survey, Journal of the Operational Research Society, 50(2), 109-123.
 
-13. Alban A, Chick SE, Lvova O, Sent D, 2020, A simulation model to evaluate the patient flow in an intensive care unit under different levels of specialization, invited submission to Proc. 2020 Winter Simulation Conference, KH Bae, et al, eds. IEEE. https://ssrn.com/abstract_id=3565826
+13. Brandeau ML, Sainfort F, and WP Pierskalla, Eds. (2004) Operations Research and Health Care: A Handbook of Methods and Applications. Kluwer Academic Publishers, Norwell, MA.
 
-14. Brennan A, SE Chick, R Davies, 2006, A Taxonomy of Model Structures for Economic Evaluation of Health Technologies, Health Economics, 15(12): 1295--1310. https://doi.org/10.1002/hec.1148
+14. Law AM, WD Kelton (2007) Simulation Modeling and Analysis, 4th edition, McGraw Hill. New York.
 
-15. Zhou F, T Yu, R Du, et al. 2020, The Lancet, Clinical course and risk factors for mortality of adult inpatients with COVID-19 in Wuhan, China: a retrospective cohort study, The Lancet, 395(10229): 1054-1062, March 28, 2020, https://doi.org/10.1016/S0140-6736(20)30566-3
+15. Alban A, Chick SE, Lvova O, Sent D (2020) A simulation model to evaluate the patient flow in an intensive care unit under different levels of specialization, invited submission to Proc. 2020 Winter Simulation Conference, KH Bae, et al, eds. IEEE. Piscataway, NJ. https://ssrn.com/abstract_id=3565826
+
+16. Brennan A, SE Chick, R Davies (2006) A Taxonomy of Model Structures for Economic Evaluation of Health Technologies, Health Economics, 15(12): 1295--1310. https://doi.org/10.1002/hec.1148
+
+17. Zhou F, T Yu, R Du, et al. (2020) The Lancet, Clinical course and risk factors for mortality of adult inpatients with COVID-19 in Wuhan, China: a retrospective cohort study, The Lancet, 395(10229): 1054-1062, March 28, 2020, https://doi.org/10.1016/S0140-6736(20)30566-3
 

@@ -13,11 +13,9 @@ NOTE: Code provided as is for noncommercial, academic usage only.
 
 This repository contains R/Rstudio/Shiny implementation of the decision support tool described in 'ICU capacity management during the COVID-19 pandemic using a process simulation' by the authors above.
 
-The application has been deployed at: https://andres-alban.shinyapps.io/icu-covid-sim/.
-
+The application has been deployed at: https://andres-alban.shinyapps.io/icu-covid-sim/. 
 The main readme for this repo is ([README.md](README.md)).
-
-See also conceptual model at ([README-AppA.md](README-AppA.md)).
+See also motivation and conceptual model at ([README-AppA.md](README-AppA.md)).
 
 # Appendix B: Example Usage of icu-covid-sim
 
@@ -129,11 +127,11 @@ The plots for COVID-19 patients evaluate the performance for a range of arrival 
 
 ## References:
 
-Alban A, Chick SE, Lvova O, Sent D, 2020, A simulation model to evaluate the patient flow in an intensive care unit under different levels of specialization, invited submission to Proc. 2020 Winter Simulation Conference, KH Bae, B Feng, S Kim, S Lazarova-Molnar, Z Zheng, T Roeder, R Thiesing, eds. Piscataway, NJ, IEEE. https://ssrn.com/abstract_id=3565826
+14. Alban A, Chick SE, Lvova O, Sent D (2020) A simulation model to evaluate the patient flow in an intensive care unit under different levels of specialization, invited submission to Proc. 2020 Winter Simulation Conference, KH Bae, et al, eds. IEEE. Piscataway, NJ. https://ssrn.com/abstract_id=3565826
 
 Chang W, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2020). shiny: Web Application Framework for R. R package version 1.4.0.2. https://CRAN.R-project.org/package=shiny
 
-Law AM, WD Kelton, 2007, Simulation Modeling and Analysis, 4th edition, McGraw Hill. 
+13. Law AM, WD Kelton (2007) Simulation Modeling and Analysis, 4th edition, McGraw Hill. New York.
 
 R Core Team (2020). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
 

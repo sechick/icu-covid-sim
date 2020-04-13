@@ -46,7 +46,7 @@ Summary in words: At https://andres-alban.shinyapps.io/icu-covid-sim/, follow th
 
 ### Manuscript associated with a Letter in submission.
 
-### Conceptual model to the context of COVID is at ([README-AppA.md](README-AppA.md)).
+### Motivation and conceptual model to the context of COVID is at ([README-AppA.md](README-AppA.md)).
 
 See also https://ssrn.com/abstract_id=3570406.
 
