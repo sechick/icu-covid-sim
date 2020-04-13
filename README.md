@@ -15,7 +15,7 @@ NOTE: Code provided as is for noncommercial, academic usage only.
 
 This repository contains R/Rstudio/Shiny implementation of the decision support tool described in 'ICU capacity management during the COVID-19 pandemic using a process simulation' by the authors above.
 
-The application has been deployed at: https://andres-alban.shinyapps.io/icu-covid-sim/.
+The application has been deployed at: https://andres-alban.shinyapps.io/icu-covid-sim/. Source code at https://github.com/sechick/icu-covid-sim/.
 
 ## QUICK START INSTRUCTIONS
 
@@ -29,23 +29,31 @@ Summary in words: At https://andres-alban.shinyapps.io/icu-covid-sim/, follow th
  
 ### Outputs include:
 
-- COVID patients per day which can be handled in ICU, given COVID demand, LOS requirements, and potential for bed blocking. Can thereby decude the number of patients which must be referred elsewhere.
+- COVID patients per day which can be handled in ICU, given COVID demand, LOS requirements, and potential for bed blocking. One can thereby deduce the rate of patients which must be referred elsewhere by subtracting the demand from the patients which can be handled.
+
 <p align="center">
-  <img src="Docs/throughput_example.png" width="350" alt="accessibility text">
+  <img src="Docs/throughput_example.png" width="350" alt="throughput_example text">
 </p>
+
 - Similar statistics for unplanned non-COVID-19 ICU patients, for the block of beds allocated for them: Fraction of referrals and occupancy rate.
+
 <p align="center">
-  <img src="Docs/referrals_example.png" width="350" alt="accessibility text">
-  <img src="Docs/occupancy_example.png" width="350" alt="accessibility text">
+  <img src="Docs/referrals_example.png" width="350" alt="referrals_example text">
+  <img src="Docs/occupancy_example.png" width="350" alt="occupancy_example text">
 </p>
 
-### More examples of USAGE of the tool is at ([README-AppB.md](README-AppB.md))
+## For more details: 
 
-### For more details: 
+### Manuscript associated with a Letter in submission.
 
-Short letter in submission for publication, built on conceptual model at https://ssrn.com/abstract_id=3565826 (invited for 2020 Winter Simulation Conference).
+### Conceptual model to the context of COVID is at ([README-AppA.md](README-AppA.md)).
 
-More on adaptation of the conceptual model to the context of COVID is at ([README-AppA.md](README-AppA.md)) or https://ssrn.com/abstract_id=3570406.
+See also https://ssrn.com/abstract_id=3570406.
 
-Software provided "as is". Support not provided, feedback to icucovidcap@gmail.com (please also let us know if it helped).
+### More examples of USAGE of the tool is at ([README-AppB.md](README-AppB.md)).
+
+Model was adapted from an earlier study of operations management / process flow simulations at: https://ssrn.com/abstract_id=3565826 (invited for 2020 Winter Simulation Conference).
+
+Software provided "as is". Support not provided, feedback to icucovidcap@gmail.com (please also let us know if it helped). If you adapt it, please refer to https://github.com/sechick/icu-covid-sim/ and one of the papers above.
+
 

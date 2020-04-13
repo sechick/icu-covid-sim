@@ -17,6 +17,8 @@ The application has been deployed at: https://andres-alban.shinyapps.io/icu-covi
 
 The main readme for this repo is ([README.md](README.md)).
 
+See also conceptual model at ([README-AppA.md](README-AppA.md)).
+
 # Appendix B: Example Usage of icu-covid-sim
 
 This ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation).
@@ -26,8 +28,8 @@ The model provides statistics assuming that one set of ICU beds is reserved for 
 Parameters are entered as follows.
 
 <p align="center">
-  <img src="icu-covid-inputs.png" width="300" alt="accessibility text">
-  <img src="icu-noncovid-inputs.png" width="298.3" alt="accessibility text">
+  <img src="Docs/icu-covid-inputs.png" width="300" alt="icu-covid-inputs text">
+  <img src="Docs/icu-noncovid-inputs.png" width="298.3" alt="icu-noncovid-inputs text">
 </p>
 
 ## Inputs to describe the model: Simplest case
@@ -106,7 +108,7 @@ Theoretical means are plotted together with bars that represent one standard dev
 The simulations can be further controlled using several additional parameters.
 
 <p align="center">
-  <img src="icu-additional-params.png" width="300" title="hover text">
+  <img src="Docs/icu-additional-params.png" width="300" title="icu-additional-params text">
 </p>
 
 ### Period length in simulation days
