@@ -1,12 +1,11 @@
-#ANDRES#
-## This function samples the arrival times for the specified type of patient in units of days for N days. 
-# It returns a list with the first element containing the arrival times in units of days and the second element the day of the week where 1 is Monday and Sunday is 
+
+library(actuar) # Necessary to sample loglogistic distribution
+
+## This function samples the arrival times for the specified type in units of days for N days.
+# It calls the appropriate function for sampling specified by the type. 
+# It returns a list with the first element containing the arrival times in units of days and the second element the day of the week
 # It assmes that day 1 is a Monday and day 7 is Sunday.
 # To change the distributions I only need to change this function
-
-# Unlike Simulation2.R, the flexible ICU transfers patients to their correct ICU when a bed becomes available
-library(actuar)
-
 sample_arrival = function(type,parameters,N){
   # type is one of Poisson or daily
   if (type == "Poisson"){
@@ -14,11 +13,11 @@ sample_arrival = function(type,parameters,N){
   }else if (type == "daily"){
     sample_nday_hour10(parameters,N)
   } else {
-    stop('Specify a proper arrival model: "Poisson" or "Daily"')
+    stop('Specify a proper arrival model: "Poisson" or "daily"')
   }
-  
 }
 
+## This function samples Poisson arivals with differnt rates for weekdays and weekends 
 sample_Poisson = function(parameters,N){
   Nweekday = floor(N/7)*5 + min(N%%7,5) # Number of weekdays in N days (assuming day 1 is a Monday)
   Nweekend = floor(N/7)*2 + max(N%%7 - 5,0) # Number of weekend days in N days (assuming day 1 is a Monday)
@@ -50,6 +49,8 @@ sample_Poisson = function(parameters,N){
   list(adm_time,adm_weekday)
 }
 
+# This function samples arrivals with a categorical distribution in the number of patients pr day
+# and a beta distribution on the time of the day for arrival.
 sample_nday_hour10 = function(parameters,N){
   Nweekday = floor(N/7)*5 + min(N%%7,5) # Number of weekdays in N days (assuming day 1 is a Monday)
   Nweekend = floor(N/7)*2 + max(N%%7 - 5,0) # Number of weekend days in N days (assuming day 1 is a Monday)
@@ -68,8 +69,8 @@ sample_nday_hour10 = function(parameters,N){
   list(adm_time,adm_weekday)
 }
 
-## This function samples n LOS for the specified type of patient in units of days.
-# To change the sampling distributions I only need to change this function
+## This function samples n LOS for the specified type in units of days.
+
 sample_LOS = function(type,parameters,n){
   # type is one of lognorm, loglogis or bootstrap
   if (type == "lognorm"){
@@ -90,6 +91,7 @@ sample_LOS = function(type,parameters,n){
 }
 
 ## This function generates patient observations for N days
+# It calss the functions for generaing arrivals and LOS and merges the stream of patients in a data frame
 sample_patients = function(N,Arr_parameters,LOS_parameters,ref_spec = NULL,spec = NULL,plan_adm = NULL){
   if (length(Arr_parameters) != length(LOS_parameters)){
     stop("Provide the same length of arrival and LOS data")
@@ -140,7 +142,6 @@ process_queue_pooled = function(sim,c,blocking_time = 0.5,replan_time = 1){
     sim$occ_beds_eff[i] = sum(sim$adm_time_eff <= sim$adm_time_eff[i] & sim$dis_time > sim$adm_time_eff[i])
     if (sim$occ_beds_eff[i] <= c){  # Admitted patients
       i = i+1
-      # if (i %in% ceiling(nrow(sim)*c(1/4,1/2,3/4))){print(paste0(floor(i/nrow(sim)*100),"%"))} # print progress
     }else if (sim$occ_beds_eff[i] > c & sim$plan_adm[i] == "Unplanned"){ # Rejected patients
       sim_rej = rbind(sim_rej,sim[i,])
       sim$dis_time[i] = 0
@@ -159,10 +160,9 @@ process_queue_pooled = function(sim,c,blocking_time = 0.5,replan_time = 1){
   list(sim,sim_rej,sim_rep)
 }
 
-#ANDRES#+replanned patients
 ## This function takes the output of sample_patients and determines the admitted, rejected and replanned patients 
-#in a specialized ICU.
-# It also takes c as an input, a vector of the capacities of the four specialized ICUs
+# in a specialized ICU.
+# It takes c as an input, a vector of the capacities of each of the specialized ICUs
 # It adds the number of occupied beds after admission of each patient to the data sets and the number of the ICU.
 # It returns a data set for admitted patients, rejected patients, replanned patients 
 # Replanned can be duplicated multiple times, so it counts the events of replanning, not the patients.  
@@ -190,149 +190,5 @@ process_queue_specialized = function(sim,c,blocking_time = 0.5,replan_time = 1){
   for (i in 1:length(c)){
     sim_adm[sim_adm$spec == i,"occ_beds_spec"] = sapply(sim_adm$adm_time[sim_adm$spec == i], function(x) sum(sim_adm$adm_time[sim_adm$spec == i] <= x & sim_adm$dis_time[sim_adm$spec == i] > x))
   } 
-  # ifelse(sim_adm$spec == 1,sapply(sim_adm$adm_time[sim_adm$spec == 1], function(x) sum(sim_adm$adm_time[sim_adm$spec == 1] <= x & sim_adm$dis_time[sim_adm$spec == 1] > x)),
-  #                                ifelse(sim_adm$spec == 2,sapply(sim_adm$adm_time[sim_adm$spec == 2], function(x) sum(sim_adm$adm_time[sim_adm$spec == 2] <= x & sim_adm$dis_time[sim_adm$spec == 2] > x)),
-  #                                       ifelse(sim_adm$spec == 3,sapply(sim_adm$adm_time[sim_adm$spec == 3], function(x) sum(sim_adm$adm_time[sim_adm$spec == 3] <= x & sim_adm$dis_time[sim_adm$spec == 3] > x)),
-  #                                              sapply(sim_adm$adm_time[sim_adm$spec == 4], function(x) sum(sim_adm$adm_time[sim_adm$spec == 4] <= x & sim_adm$dis_time[sim_adm$spec == 4] > x)))))
-  # 
   list(sim_adm,sim_rej,sim_rep)
 }
-
-## This function takes the output of sample_patients and determines the admitted and rejected patients in a flexible ICU.
-# It also takes c as an input, a vector of the capacities of the four specialized ICUs
-# It also takes shares as an input, a vector of the specialized ICU that takes patients from another one.
-# For instance, shares = c(2,3,4,1), means that ICU1 can send patients to ICU2 if ICU1 is full. ICU2 can send patients to ICU3, ICU3 to ICU4 and ICU4 to ICU1.
-# It adds the number of occupied beds after admission of each patient to the data sets and the number of the ICU.
-# It returns a data set for admitted patients and one for rejected patients
-
-#!!!!!!!!!!!!!!! This function is outdated
-process_queue_flexible = function(sim,c,shares,blocking_time = 0.5,replan_time = 1){
-  # blocking_time = rep(blocking_time,length.out = length(c))
-  # replan_time = rep(replan_time,length.out = length(c))
-  sim$adm_time_eff = ifelse(sim$plan_adm == "Planned",sim$adm_time - blocking_time,sim$adm_time)
-  sim$ICU_spec = NA
-  
-  sim$occ_beds_eff_spec1 = 0 # These are the number of beds occupied in each specialism
-  sim$occ_beds_eff_spec2 = 0
-  sim$occ_beds_eff_spec3 = 0
-  sim$occ_beds_eff_spec4 = 0
-  sim_rej = data.frame()
-  sim_rep = data.frame()
-  sim_transfer = data.frame()
-  sim$transfer_time = NA
-  
-  sim = sim[order(sim$adm_time_eff),]
-  
-  columns = paste0("occ_beds_eff_spec",1:4)
-  # First arrival is always admitted
-  sim$ICU_spec[1] = sim$spec[1]
-  sim[1,columns[sim$spec[1]]] = 1
-  sim_current = sim[1,] # Current patients in the ICU
-  i = 2
-  
-  while (i <= nrow(sim)){
-    discharged = sim_current[sim_current$dis_time <= sim$adm_time_eff[i],] # discharges since last admitted patient
-    discharged = discharged[order(discharged$dis_time),]
-    
-    if (nrow(discharged) > 0){
-      dis1 = sum(discharged$ICU_spec == 1)
-      dis2 = sum(discharged$ICU_spec == 2)
-      dis3 = sum(discharged$ICU_spec == 3)
-      dis4 = sum(discharged$ICU_spec == 4)
-    } else{
-      dis1 = 0
-      dis2 = 0
-      dis3 = 0
-      dis4 = 0
-    }
-    
-    # Remove the discharged patients
-    sim$occ_beds_eff_spec1[i] = sim$occ_beds_eff_spec1[i-1] - dis1
-    sim$occ_beds_eff_spec2[i] = sim$occ_beds_eff_spec2[i-1] - dis2
-    sim$occ_beds_eff_spec3[i] = sim$occ_beds_eff_spec3[i-1] - dis3
-    sim$occ_beds_eff_spec4[i] = sim$occ_beds_eff_spec4[i-1] - dis4
-    
-    ###########
-    ## Check whether patients not in their specialized ICU can be transfered to the correct ICU
-    sim_transfer = sim_current[sim_current$ICU_spec != sim_current$spec & sim_current$dis_time > sim$adm_time_eff[i],] 
-    # Patients who are waiting to be transferred 
-    transferred_ids = c()
-    repeat{ # if a place gets free from a transferred patient we might transfer another one
-      count = 0
-      if (nrow(sim_transfer)>0) {# check if we can transfer from ref to a correct one (one time now)
-        for (a in 1:nrow(sim_transfer)){
-          if (sim[i, columns[sim_transfer$spec[a]]] < c[sim_transfer$spec[a]]) {
-            count = count+1
-            sim[i, columns[shares[sim_transfer$spec[a]]]] = sim[i, columns[shares[sim_transfer$spec[a]]]] - 1 #transfer from ref
-            sim[i, columns[sim_transfer$spec[a]]] = sim[i,columns[sim_transfer$spec[a]]] + 1 #add to correct
-            opened_bed = discharged[discharged$ICU_spec == sim_transfer$spec[a],][1,]
-            discharged = discharged[discharged$id != opened_bed$id,]
-            sim$transfer_time[sim$id == sim_transfer$id[a]] = opened_bed$dis_time
-            transferred_ids = c(transferred_ids,sim_transfer$id[a])
-            sim_transfer = sim_transfer[-c(a),]
-            # The line below can only be excuted if the patient is admitted, otherwise the logic of the function does not work anymore
-            # sim_current$ICU_spec[sim_current$id == sim_transfer$id[a]] = sim_transfer$spec[a] #adjust his current ICU in current
-            break
-          }
-        }
-      }
-      if (count == 0) break # condition to break out of repeat
-    }
-    ###########
-    
-    if (sim[i, columns[sim$spec[i]]] < c[sim$spec[i]]){ # Admitted patients
-      sim[i, columns[sim$spec[i]]] = sim[i,columns[sim$spec[i]]] + 1
-      sim$ICU_spec[i] = sim$spec[i]
-      sim_current = rbind(sim_current, sim[i,])
-      sim_current = sim_current[sim_current$dis_time > sim$adm_time_eff[i],] # Discharge patients
-      sim_current$ICU_spec[sim_current$id %in% transferred_ids] = sim_current$spec[sim_current$id %in% transferred_ids] #adjust current ICU of transferred patients
-      i = i+1
-    } else if (sim[i, columns[shares[sim$spec[i]]]] < c[shares[sim$spec[i]]]){ # Redirect patient to partner ICU
-      sim[i, columns[shares[sim$spec[i]]]] = sim[i, columns[shares[sim$spec[i]]]] + 1
-      sim$ICU_spec[i] = shares[sim$spec[i]]
-      sim_current = rbind(sim_current, sim[i,])
-      sim_current = sim_current[sim_current$dis_time > sim$adm_time_eff[i],] # Discharge patients
-      sim_current$ICU_spec[sim_current$id %in% transferred_ids] = sim_current$spec[sim_current$id %in% transferred_ids] #adjust current ICU of transferred patients
-      # sim_transfer = rbind(sim_transfer, sim[i,]) #add to a df of patients who are in a referred department
-      i = i+1
-    } else if (sim$plan_adm[i] == "Unplanned") { # Reject patient
-      sim_rej = rbind(sim_rej,sim[i,])
-      sim = sim[-c(i),]
-    } else if (sim$plan_adm[i] == "Planned"){ # Reschedule patient for the next day. Should we consider replanning for the next weekday? Right now patients can be replanned for a Sunday
-      sim_rep = rbind(sim_rep,sim[i,])
-      sim$adm_time[i] = sim$adm_time[i] + 1
-      sim$adm_time_eff[i] = sim$adm_time_eff[i] + 1
-      sim$dis_time[i] = sim$dis_time[i] + 1
-      sim = sim[order(sim$adm_time_eff),]
-    } else {
-      stop("Unknown situation")
-    }
-  }
-  
-  sim_adm = sim[order(sim$adm_time),]
-  sim_adm$transfer_time[is.na(sim_adm$transfer_time) & sim_adm$spec == sim_adm$ICU_spec] = sim_adm$adm_time[is.na(sim_adm$transfer_time) & sim_adm$spec == sim_adm$ICU_spec]
-  sim_adm$transfer_time[is.na(sim_adm$transfer_time) & sim_adm$spec != sim_adm$ICU_spec] = sim_adm$dis_time[is.na(sim_adm$transfer_time) & sim_adm$spec != sim_adm$ICU_spec]
-  if (nrow(sim_rej) > 0){sim_rej = sim_rej[order(sim_rej$adm_time),]}else{sim_rej = 0}
-  sim_adm$occ_beds = sapply(sim_adm$adm_time, function(x) sum(sim_adm$adm_time <= x & sim_adm$dis_time > x))
-  sim_adm$occ_beds_ICU_spec = ifelse(sim_adm$ICU_spec == 1,sapply(sim_adm$adm_time[sim_adm$ICU_spec == 1], function(x) sum(sim_adm$adm_time[sim_adm$ICU_spec == 1] <= x & sim_adm$dis_time[sim_adm$ICU_spec == 1] > x)),
-                                     ifelse(sim_adm$ICU_spec == 2,sapply(sim_adm$adm_time[sim_adm$ICU_spec == 2], function(x) sum(sim_adm$adm_time[sim_adm$ICU_spec == 2] <= x & sim_adm$dis_time[sim_adm$ICU_spec == 2] > x)),
-                                            ifelse(sim_adm$ICU_spec == 3,sapply(sim_adm$adm_time[sim_adm$ICU_spec == 3], function(x) sum(sim_adm$adm_time[sim_adm$ICU_spec == 3] <= x & sim_adm$dis_time[sim_adm$ICU_spec == 3] > x)),
-                                                   sapply(sim_adm$adm_time[sim_adm$ICU_spec == 4], function(x) sum(sim_adm$adm_time[sim_adm$ICU_spec == 4] <= x & sim_adm$dis_time[sim_adm$ICU_spec == 4] > x)))))
-  
-  sim_rej$occ_beds = sapply(sim_rej$adm_time, function(x) sum(sim_adm$adm_time <= x & sim_adm$dis_time > x))
-  sim_rej$occ_beds_spec = ifelse(sim_rej$spec == 1,sapply(sim_rej$adm_time[sim_rej$spec == 1], function(x) sum(sim_adm$adm_time[sim_adm$ICU_spec == 1] <= x & sim_adm$dis_time[sim_adm$ICU_spec == 1] > x)),
-                                 ifelse(sim_rej$spec == 2,sapply(sim_rej$adm_time[sim_rej$spec == 2], function(x) sum(sim_adm$adm_time[sim_adm$ICU_spec == 2] <= x & sim_adm$dis_time[sim_adm$ICU_spec == 2] > x)),
-                                        ifelse(sim_rej$spec == 3,sapply(sim_rej$adm_time[sim_rej$spec == 3], function(x) sum(sim_adm$adm_time[sim_adm$ICU_spec == 3] <= x & sim_adm$dis_time[sim_adm$ICU_spec == 3] > x)),
-                                               sapply(sim_rej$adm_time[sim_rej$spec == 4], function(x) sum(sim_adm$adm_time[sim_adm$ICU_spec == 4] <= x & sim_adm$dis_time[sim_adm$ICU_spec == 4] > x)))))
-  
-  sim_rep$occ_beds = sapply(sim_rep$adm_time, function(x) sum(sim_adm$adm_time <= x & sim_adm$dis_time > x))
-  sim_rep$occ_beds_spec = ifelse(sim_rep$spec == 1,sapply(sim_rep$adm_time[sim_rep$spec == 1], function(x) sum(sim_adm$adm_time[sim_adm$ICU_spec == 1] <= x & sim_adm$dis_time[sim_adm$ICU_spec == 1] > x)),
-                                 ifelse(sim_rep$spec == 2,sapply(sim_rep$adm_time[sim_rep$spec == 2], function(x) sum(sim_adm$adm_time[sim_adm$ICU_spec == 2] <= x & sim_adm$dis_time[sim_adm$ICU_spec == 2] > x)),
-                                        ifelse(sim_rep$spec == 3,sapply(sim_rep$adm_time[sim_rep$spec == 3], function(x) sum(sim_adm$adm_time[sim_adm$ICU_spec == 3] <= x & sim_adm$dis_time[sim_adm$ICU_spec == 3] > x)),
-                                               sapply(sim_rep$adm_time[sim_rep$spec == 4], function(x) sum(sim_adm$adm_time[sim_adm$ICU_spec == 4] <= x & sim_adm$dis_time[sim_adm$ICU_spec == 4] > x)))))
-  
-  list(sim_adm,sim_rej,sim_rep)
-}
-
-
-

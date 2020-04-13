@@ -1,5 +1,6 @@
 library(shiny)
 library(RColorBrewer)
+library(markdown)
 #### Source functions ####
 source("Optimize_bed_partitionFunction.R")
 error.bar <- function(x, y, upper, lower=upper, length=0.05,...){
@@ -9,31 +10,36 @@ load("defaultplotdata.Rdata")
 
   # Add tool to see the location of mouse
 ui <- fluidPage(
-  titlePanel("ICU Capacity Simulation"),
-  h4("By Andres Alban, Stephen E. Chick, Dave A. Dongelmans, Alexander F. van der Sluijs, W. Joost Wiersinga, Alexander P.J. Vlaar, and Danielle Sent"),
-  p("Affiliations: UMC Amsterdam, location AMC, Dept of Intensive Care Medicine or Medical Informatics or Medicine, Division of Infectious Diseases; or INSEAD Technology and Operations Management or Healthcare Management Initiative."), 
-  p("This ICU simulation tool assists in the ICU capacity decision-making during the COVID-19 pandemic."),
-  p("TO USE: First, fill in parameter values. Second, click 'Simulate' button. Third, scroll down to see results (may take a minute)."),
+  titlePanel("ICU Capacity Simulation Tool"),
+  h4("By Andres Alban",tags$sup("1"),", Stephen E. Chick",tags$sup("1,2"),", Dave A. Dongelmans",tags$sup("3"),", Alexander F. van der Sluijs",tags$sup("3"),", W. Joost Wiersinga",tags$sup("3,4"),", Alexander P.J. Vlaar",tags$sup("2,3"),", and Danielle Sent",tags$sup("5")),
+  p("Affiliations:",tags$sup("1"),"INSEAD Technology and Operations Management;",
+                    tags$sup("2"),"INSEAD Healthcare Management Initiative;",
+                    tags$sup("3"),"Amsterdam UMC, location AMC, Department of Intensive Care Medicine;",
+                    tags$sup("4"),"Amsterdam UMC, location AMC, Department of Medicine, Division of Infectious Diseases;",
+                    tags$sup("5"),"Amsterdam UMC, location AMC, Department of Medical Informatics, Amsterdam Public Health Research Institute;"),
+  hr(),
+  p("This ICU simulation tool assists in the ICU capacity decision-making during the COVID-19 pandemic. See the manual tab for more information"),
+  p(strong("TO USE:")," First, fill in parameter values. Second, click 'Simulate' button. Third, go to the 'Plots' tab and scroll down to see results (may take a minute)."),
   p("Parameters for COVID-19 and non-COVID-19 patients:"),
   tags$ul(
     tags$li("Arrival rate to the ICU"),
     tags$li("Length of stay (LOS) distribution specified with median and interquartile range (IQR) or mean and standard deviation (sd)"),
     tags$li("Number of ICU beds allocated to COVID-19 and non-COVID-19 patients")
   ),
-  p("For more details: paper in submission, built on conceptual model at ",
+  strong("For more details: paper in submission, built on conceptual model ",
     a("here",href = "https://papers.ssrn.com/abstract_id=3565826"), 
-    "(invited for 2020 Winter Simulation Conference), also see online supplement ", a("here",href = "https://www.dropbox.com/s/ovo0dlmwhxzjk1e/COVIDpaper-supplement.pdf?dl=0")),
+    "(invited for 2020 Winter Simulation Conference), and see ", a("https://github.com/sechick/icu-covid-sim/"), " for source code and additional information about the conceptual model."),
   p('Software provided "as is". Support not provided, feedback to', a("icucovidcap@gmail.com",href = "mailto:icucovidcap@gmail.com"),"(please also let us know if it helped)."),
   
   sidebarLayout(
     sidebarPanel(
-      #Press go after all settings are set correctly, can be done from every tab
+      #Press Simulate after all settings are set correctly, can be done from every tab
       actionButton("Simulate", label = "Simulate"),
       h3("Input parameters"),
       ## First COVID patient parameters
       h4("COVID-19 patients"),
       sliderInput(inputId =  "arr_rate_COVID",label = "Arrival rate (patients per day)",min = 0.1,max = 10,value = c(1,5)),
-      radioButtons(inputId =  "LOS_COVID",label = "LOS input type",choiceNames = c("Median (IQR)", "Mean (sd)"), choiceValues = c(1,2), selected = 1),
+      radioButtons(inputId =  "LOS_COVID",label = "LOS input type",choiceNames = c("Median (IQR) - assumes loglogistic distributed LOS", "Mean (sd) - assumes lognormal distributed LOS"), choiceValues = c(1,2), selected = 1),
       uiOutput("LOS_COVID_input1"),
       uiOutput("LOS_COVID_input2"),
       sliderInput(inputId = "COVID_beds",label = "Beds allocated to COVID-19 patients",min = 1, max = 150,value = c(20,35)),
@@ -43,9 +49,6 @@ ui <- fluidPage(
       "If several specialisms, enter the values for each separated by a comma",
       textInput(inputId = "arr_rate_Rest",label = "Arrival rate (patients per day)", value = 2),
       radioButtons(inputId =  "LOS_Rest",label = "LOS input type",choiceNames = c("Median (IQR)", "Mean (sd)"), choiceValues = c(1,2), selected = 2),
-      # textInput(inputId = "LOS_Rest",label = "LOS Input type (1 for Median (IQR) and 2 for Mean (sd))", value = 1),
-      # textInput(inputId = "LOS_Rest_mean",label = "LOS median or mean (days)", value = "4.4"),
-      # textInput(inputId = "LOS_Rest_sd",label = "LOS IQR or std. deviation (days)", value = "9"),
       uiOutput("LOS_Rest_input1"),
       uiOutput("LOS_Rest_input2"),
       sliderInput(inputId = "Rest_beds",label = "Beds allocated to non-COVID-19 patients",min = 1, max = 50,value = c(8,15)),
@@ -58,18 +61,24 @@ ui <- fluidPage(
     
     #mainframe to choose which variables to show and to plot the figures
     mainPanel(
+      tabsetPanel(type = "tabs",id = "tabs",
+                  tabPanel("Plots",
       textOutput("test"),
       # verbatimTextOutput("test"),
       conditionalPanel(condition="$('html').hasClass('shiny-busy')",
                                                   tags$div("Loading... (This may take a few minutes)",id="loadmessage")),
-      h3("Throughput rate: the number of patients per day that can go through the system:"),
+      h3("Throughput rate of COVID-19 patients: the number of patients per day that can go through the system:"),
       plotOutput("rej_COVID"),
-      h3("The fraction of beds occupied on average:"),
+      h3("The fraction of beds occupied on average for COVID-19 patients"),
       plotOutput("occ_COVID"),
-      h3("The fraction of patients who need to be referred to another hospital due to capacity issues:"),
+      h3("The fraction of patients who need to be referred to another hospital due to capacity issues for Non-COVID-19 patients"),
       plotOutput("rej_Rest"),
-      h3("The fraction of beds occupied on average:"),
+      h3("The fraction of beds occupied on average for Non-COVID-19 patients"),
       plotOutput("occ_Rest")
+    ),
+    tabPanel("Manual",
+             includeMarkdown("AppManual.md"))
+      )
     )
   )
 )
@@ -88,6 +97,7 @@ server = function(input,output,session){
   rv = reactiveValues()
   
   #### Default plots ####
+  
   output$rej_COVID = renderPlot({
     par(bty="l")
     plot(0,type="l",xlim = arr_rate_COVID[c(1,length(arr_rate_COVID))],ylim = c(0,max(arr_rate_COVID)+0.1),xlab = "Arrival rate (Patients per day)",ylab = "Throughput rate (Patients per day)",main = "COVID-19 patients")
@@ -195,23 +205,26 @@ server = function(input,output,session){
     
     
     #### Run simulations and save output ####
-    ref_spec = c(rep("COVID-",specialisms_nr),"COVID+")
-    spec = c(rep(2,specialisms_nr),1)
-    plan_adm = rep("Unplanned",specialisms_nr + 1)
-    if (specialisms_nr==0){c_specs = cbind(c_specs[,1])}
     cum_perf_COVID = list()
     cum_perf_Rest = list()
     cum_perf_COVID_SD = list()
     cum_perf_Rest_SD = list()
     for (i in 1:length(arr_rate_COVID)){
       Arr_parameters[[specialisms_nr+1]] = list("Poisson",c(1/arr_rate_COVID[i],1/arr_rate_COVID[i]))
-      perf_lists = OptimizePartition(Arr_parameters=Arr_parameters,LOS_parameters=LOS_parameters,c_specs=c_specs,N=input$N,K=input$K,ref_spec = ref_spec,spec=spec,plan_adm=plan_adm)
+      perf_lists = OptimizePartition(Arr_parameters=Arr_parameters[specialisms_nr+1],LOS_parameters=LOS_parameters[specialisms_nr+1],c_specs=cbind(c_specs[,1]),N=input$N,K=input$K)
       cum_perf_COVID[[i]] = perf_lists[[1]][[1]]
       cum_perf_COVID_SD[[i]] = perf_lists[[2]][[1]]
-      if (specialisms_nr>0){
-        cum_perf_Rest[[i]] = perf_lists[[1]][[2]]
-        cum_perf_Rest_SD[[i]] = perf_lists[[2]][[2]]
-        }
+      # if (specialisms_nr>0){
+      #   cum_perf_Rest[[i]] = perf_lists[[1]][[2]]
+      #   cum_perf_Rest_SD[[i]] = perf_lists[[2]][[2]]
+      #   }
+    }
+    if (specialisms_nr>0){
+      spec = rep(1,specialisms_nr)
+      c_specs_Rest = if(specialisms_nr==1) cbind(c_specs[,1]) else c_specs[,1:specialisms_nr]
+      perf_lists = OptimizePartition(Arr_parameters=Arr_parameters[1:specialisms_nr],LOS_parameters=LOS_parameters[1:specialisms_nr],c_specs=cbind(c_specs[,2]),N=input$N,K=input$K,spec=spec)
+      cum_perf_Rest[[1]] = perf_lists[[1]][[1]]
+      cum_perf_Rest_SD[[1]] = perf_lists[[2]][[1]]
     }
     rej_rate_COVID = sapply(cum_perf_COVID, function(x) x$rej_rate)
     rej_rate_COVID_SD = sapply(cum_perf_COVID_SD, function(x) x$rej_rate)
@@ -286,7 +299,7 @@ server = function(input,output,session){
       par(bty="l")
       plot(c_specs[,2],occ_rate_Rest_true,col = brewer.pal(4,"Set1")[1],xlab = "ICU capacity: Non-COVID-19 (Beds)",ylab = "Fraction of occupied beds",type = "o",pch = 19, ylim = c(0,1),xlim = c(min(c_specs[,2]),max(c_specs[,2])),main = "Non-COVID-19")
       # lines(c_specs[,2],rowMeans(occ_rate_Rest), col = brewer.pal(4,"Set1")[3], type = "o", lty = 4, pch = 19)
-      error.bar(c_specs[,2],occ_rate_Rest_true,occ_rate_Rest_SD[,1],col = brewer.pal(4,"Set1")[1])
+      error.bar(c_specs[,2],occ_rate_Rest_true,occ_rate_Rest_SD,col = brewer.pal(4,"Set1")[1])
     })
     
     
@@ -294,6 +307,9 @@ server = function(input,output,session){
     output$test = renderText({
       paste0("Done in ",round(difftime(Sys.time(),start,units = "secs"),0)," seconds")
     })
+    
+    ## Switch to Plots tab
+    updateTabsetPanel(session, "tabs",selected = "Plots")
     
   })
   

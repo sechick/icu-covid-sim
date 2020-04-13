@@ -21,7 +21,9 @@ See also motivation and conceptual model at ([README-AppA.md](README-AppA.md)). 
 
 This ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation).
 
-The model provides statistics assuming that one set of ICU beds is reserved for COVID-19 patients, and another set of beds is reserved for non-COVID-19 patients (also called ‘Other patients’). The model is implemented in the R programming language [2] using RStudio [3] and RShiny [4] and is provided as is without warranty. The model was made available at https://andres-alban.shinyapps.io/icu-covid-sim/.
+The model provides statistics about the stochastic patient flow in an ICU assuming that one set of ICU beds is reserved for COVID-19 patients, and another set of beds is reserved for non-COVID-19 patients (also called ‘Other patients’). The model assumes independent M/G/c/c queues for COVID-19 and non-COVID-19 patients.
+
+The model is implemented in the R programming language [2] using RStudio [3] and RShiny [4] and is provided as is without warranty. The model was made available at https://andres-alban.shinyapps.io/icu-covid-sim/.
 
 Parameters are entered as follows.
 
@@ -30,7 +32,7 @@ Parameters are entered as follows.
   <img src="Docs/icu-noncovid-inputs.png" width="298.3" alt="icu-noncovid-inputs text">
 </p>
 
-## Inputs to describe the model: Simplest case
+## Inputs to describe the model
 
 Click the 'Simulate' button only AFTER all parameter values have been set. Simulation results may take up to a minute to appear.
 
@@ -78,6 +80,12 @@ For the simplest scenario, we assume that all non-COVID ICU patients are unplann
 #### Advanced case: several streams of non-COVID-19 patients
 For the more complicated case of several streams of non-COVID patients with different arrival rate and LOS distributions you can specify the inputs separated by commas. The inputs for the LOS distribution for all streams have to be given in the same specifications, i.e., all with the median (IQR) or all with mean (sd) specification. The number of inputs for arrival rate and LOS have to be the same length and be entered in the same order, i.e., the first entry for arrival rate, LOS mean, and LOS sd corresponds to stream 1, the second set of entres to stream 2 and so on.
 
+The following is an example of the input for three streams of patients where LOS inputs are given with mean and std. deviation. Stream 1 has an arrival rate of 1 patient per day, mean LOS of 4 days, and LOS std. deviation of 7 days; stream 2 has an arrival rate of 2 patient per day, mean LOS of 5 days, and LOS std. deviation of 8 days; and stream 3 has an arrival rate of 3 patient per day, mean LOS of 6 days, and LOS std. deviation of 9 days.
+
+<p align="center">
+  <img src="Docs/icu-noncovid-inputs-adv.png" width="300" alt="icu-noncovid-inputs-adv text">
+</p>
+
 ### Additional comments:
 
 LOS for individual patients is truncated at 200 days for purposes of the analysis. In the analysis reported in the paper for Amsterdam UMC, site AMC, all ICU demand for planned care was presumed to be 0 due to cancellations of procedures. Only historical urgent ICU demand patterns were modelled with a lognormal distribution with mean 4.36 and sd 8.95 (this corresponds to a log-mean 0.52 and log-sd 1.46).
@@ -91,11 +99,25 @@ We compute outputs using theoretical results for queuing analysis (M/G/c/c queue
 
 Performance metrics computed include:
 
-•	Referral rates, for each of COVID-19 and Non-COVID-19 beds, defined to be the fraction of patients who need to be referred to another hospital due to capacity issues.
+•	Throughput rate, for COVID-19 beds, defined as the number of patients per day that can go through the system:
 
-•	Throughput rate, for each of COVID-19 and Non-COVID-19 beds, defined as the number of patients per day that can go through the system.
+<p align="center">
+  <img src="Docs/throughput_example.png" width="350" alt="throughput_example text">
+</p>
 
-•	Occupancy rates, for each of COVID-19 and Non-Covid-19 beds, defined to be the fraction of beds occupied on average through time.
+•	Occupancy rates, for each of COVID-19 and Non-Covid-19 beds, defined to be the fraction of beds occupied on average through time:
+
+<p align="center">
+  <img src="Docs/occupancy_example_covid.png" width="350" alt="occupancy_example text">
+  <img src="Docs/occupancy_example.png" width="350" alt="occupancy_example text">
+</p>
+
+•	Referral rates, non-COVID-19 beds, defined to be the fraction of patients who need to be referred to another hospital due to capacity issues.
+
+<p align="center">
+  <img src="Docs/referrals_example.png" width="350" alt="referrals_example text">
+</p>
+.
 
 Reducing the referral rate can be achieved, on average, by increasing the capacity or by decreasing the lengths of stay, for example. Statistical fluctuation can increase or decrease bed counts through time. The throughput rate increases with the arrival rate provided that enough beds are in place to maintain a low referral rate. Occupancy rates can inform decisions for initial capacity expansion plans, or for planning for potential ability to respond to additional spikes in demand.
 

@@ -1,16 +1,18 @@
 ## Optimizing specialized ICU bed partition
+# This function does not prescribe the optimal bed partition. It outputs data to help optimize the bed partition.
+# The output is a set of data frames with the performance measures for the range of bed capacities specified in c_specs.
+# Such output can be used to optimize the bed partition but this function does not optimize, it just generates the data
+# that a decision maker can use to make decisions for optimizing the partieion of the ICU
 OptimizePartition = function(Arr_parameters=NULL,LOS_parameters=NULL,c_specs=rbind(c(6,11,5,6),c(7,12,6,7)),N=20,K=182.5,ref_spec = NULL,spec=NULL,plan_adm=NULL,blocking_time_spec=0.5,replan_time_spec = 1){
 
 #### Setup parameters and functions ####
 source("Simulation4.R") # create the necessary functions for the simulation
-if (is.null(Arr_parameters)){load("Arr_parameters4.Rdata")} # Load parameters for the arrival process based on the data of AMC
-if (is.null(LOS_parameters)){load("LOS_parameters4.Rdata")} # Load parameters for the length of stay based on the data of AMC
 
 # Create Arrival of patients following the distributions prescribed in Arr_parameters and LOS_parameters
 # The third parameter is the number of days
-warm_up = 120 # nUmber of days used to warm up the queue
-horizon = N*K
-n = N*K + warm_up # Number of days simulated including warm up period
+warm_up = 120 # number of days used to warm up the queue
+horizon = N*K # length of simulation
+n = horizon + warm_up # Number of days simulated including warm up period
 sim = sample_patients(n,Arr_parameters,LOS_parameters,ref_spec = ref_spec,spec = spec,plan_adm = plan_adm)
 spec_nr = length(unique(sim$spec))
 
@@ -33,9 +35,9 @@ mean_occupancy = function(sim_event,start_occupancy,t0,dt){ # sim_event - datafr
   y
 }
 
-#perf_list is a list of 4 dataframes (spec 1-4). Each dataframe has columns: cap - capacity (number of beds)
+# perf_list is a list of dataframes. Each dataframe has columns: cap - capacity (number of beds)
 # rej_rate, occ_rate, rep_rate, frac_rep, planned - number of planned patients, unplanned - number of unplanned patients. 
-
+# perf_list is the analogous list that includes the standard deviation over the sampled periods for all the performance measures in perf_list
 
 perf_list = rep(list(data.frame(cap = numeric(),rej_rate = numeric(), occ_rate = numeric(),rep_rate = numeric(),planned = numeric(),unplanned = numeric())),spec_nr)
 names(perf_list) = paste0("spec",1:spec_nr)
@@ -45,10 +47,9 @@ perf_SD_list = perf_list # is it the standard deviation for each cell of perf_li
 
 for (i in 1:nrow(c_specs)){#2:25
   c_spec = c_specs[i,]
-  ##### Generate data ####
+  ##### Process data for the given capacity ####
   ## Specialized ICU
   temp = process_queue_specialized(sim,c_spec,0.5,1) #simulation for specialized design
-  # print(i)
   sim_adm_special = temp[[1]] # admitted patients
   sim_rej_special = temp[[2]] # rejected patients
   sim_rep_special = temp[[3]] # replanned events
@@ -76,9 +77,8 @@ for (i in 1:nrow(c_specs)){#2:25
   sim_event_special = sim_event_special[sim_event_special$time >= 0 & sim_event_special$time <= horizon,]
   sim_event_special = sim_event_special[order(sim_event_special$time),]
   
-  # Sectioning for confidence intervals
+  # Sectioning for estimating standard deviations
   times = (0:N)*K
-  
   
   ##### Save performance statistics ####
   
@@ -95,14 +95,14 @@ for (i in 1:nrow(c_specs)){#2:25
     adm_n = diff(out)/K
     arr_n = adm_n + rej_n # number of arrived = admitted+rejected (it only includes unplanned patients)
     rej_rate_mean = sum(rej_n) / sum(arr_n) #rejection rate here is number of rejected / total number arrived
-    rej_rate_SE = sd(rej_n/arr_n)#/sqrt(N)#*qt(0.975,N-1)
+    rej_rate_SD = sd(rej_n/arr_n)
     
     
     # 2) occupancy rate
     occ_n = sapply(times[1:(length(times)-1)],function(t) {start_occupancy = sum(sim_adm_special_spec$adm_time <= t & sim_adm_special_spec$dis_time > t)
                                               mean_occupancy(sim_event_special_spec,start_occupancy,t,K)})
     occ_rate_mean = mean(occ_n/c_spec[specialism])
-    occ_rate_SE = sd(occ_n/c_spec[specialism])#/sqrt(N)#*qt(0.975,N-1)
+    occ_rate_SD = sd(occ_n/c_spec[specialism])
     
     # 3) Replanned patients
     out = sapply(times,function(x) sum(sim_rep_special_spec$adm_time_eff <= x))
@@ -110,14 +110,14 @@ for (i in 1:nrow(c_specs)){#2:25
     planned_n = sapply(times, function(x) sum((sim_adm_special_spec$plan_adm == "Planned") * (sim_adm_special_spec$adm_time_eff <= x)))
     planned_n = diff(planned_n)/K
     rep_planned_mean = sum(rep_n)/sum(planned_n) # replannings per planned patient
-    rep_planned_SE = sd(rep_n/planned_n)#/sqrt(N)#*qt(0.975,N-1)
+    rep_planned_SD = sd(rep_n/planned_n)
     
     
     # bind results to perf_list
     perf_list[[specialism]] = rbind(perf_list[[specialism]],
                                     data.frame(cap = c_spec[specialism],rej_rate = rej_rate_mean, occ_rate = occ_rate_mean,rep_rate = rep_planned_mean,planned = sum(planned_n*K),unplanned = sum(arr_n*K)))
     perf_SD_list[[specialism]] = rbind(perf_SD_list[[specialism]],
-                                    data.frame(cap = c_spec[specialism],rej_rate = rej_rate_SE, occ_rate = occ_rate_SE,rep_rate = rep_planned_SE,planned = sd(planned_n*K),unplanned = sd(arr_n*K)))
+                                    data.frame(cap = c_spec[specialism],rej_rate = rej_rate_SD, occ_rate = occ_rate_SD,rep_rate = rep_planned_SD,planned = sd(planned_n*K),unplanned = sd(arr_n*K)))
   }
 }
 
