@@ -55,7 +55,7 @@ We first explored how COVID-19 ICU bed capacity interacts with variability in CO
 Figure 1: Average throughput rate in long-term of COVID patients per day as a function of the arrival rate and bed capacity. Throughput rate can be less than the arrival rate due to bed blocking.
 <p\>
 
-When then explored COVID-19 ICU bed occupancy as a function of bed capacity, COVID-19 arrival rates, and variability in arrival times and patient LOS. Figure 2 shows the average bed occupancy, for COVID-19 patients, for the same scenarios for arrival rates of patients per day, and bed capacities. Occupancy rates increase to 100% as arrival rates increase for this range of COVID-19 ICU bed capacity. At 8 COVID-19 patients per day with a capacity of 90 beds, there is 87% utilization, due to statistical fluctuations in bed occupancy over time. The number of COVID-19 beds was raised to 50 for COVID-19 at location AMC and to 94 total for both locations of Amsterdam UMC, to date.
+When then explored COVID-19 ICU bed occupancy as a function of bed capacity, COVID-19 arrival rates, and variability in arrival times and patient LOS. Figure 2 shows the average bed occupancy, for COVID-19 patients, for the same scenarios for arrival rates of patients per day, and bed capacities. Occupancy rates increase to 100% as arrival rates increase for this range of COVID-19 ICU bed capacity. At 8 COVID-19 patients per day with a capacity of 90 beds, there is 87% utilization and only 2% patients need to be referred to another facility. The number of COVID-19 beds was raised to 50 for COVID-19 at location AMC and to 94 total for both locations of Amsterdam UMC, to date.
 
 <p align=center>
 <img src="Docs/COVID-19_occupancy.png" width="450" alt="COVID-19_occupancy text">

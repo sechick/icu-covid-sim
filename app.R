@@ -28,7 +28,7 @@ ui <- fluidPage(
   ),
   strong("For more details: paper in submission, built on conceptual model ",
     a("here",href = "https://papers.ssrn.com/abstract_id=3565826"), 
-    "(invited for 2020 Winter Simulation Conference), and see ", a("https://github.com/sechick/icu-covid-sim/"), " for source code and additional information about the conceptual model."),
+    "(invited for 2020 Winter Simulation Conference), and see ", a("https://github.com/sechick/icu-covid-sim/",href="https://github.com/sechick/icu-covid-sim/"), " for source code and additional information about the conceptual model."),
   p('Software provided "as is". Support not provided, feedback to', a("icucovidcap@gmail.com",href = "mailto:icucovidcap@gmail.com"),"(please also let us know if it helped)."),
   
   sidebarLayout(
@@ -46,13 +46,14 @@ ui <- fluidPage(
       hr(),hr(),
       ## Now the parameters for the rest of the patients
       h4("Non-COVID-19 patients"),
-      "If several specialisms, enter the values for each separated by a comma",
+      "If several streams of patients, enter the values for each separated by a comma (see the 'Manual' tab)",
       textInput(inputId = "arr_rate_Rest",label = "Arrival rate (patients per day)", value = 2),
       radioButtons(inputId =  "LOS_Rest",label = "LOS input type",choiceNames = c("Median (IQR)", "Mean (sd)"), choiceValues = c(1,2), selected = 2),
       uiOutput("LOS_Rest_input1"),
       uiOutput("LOS_Rest_input2"),
       sliderInput(inputId = "Rest_beds",label = "Beds allocated to non-COVID-19 patients",min = 1, max = 50,value = c(8,15)),
       h4("Additional settings"),
+      p("(For an explanation of the following see the 'Manual' tab.)"),
       sliderInput(inputId = "K",label = "Period length in simulation days (The error bars evaluate the standard deviation of the performance measures in a period of this length)",min = 7,max = 60,value = 14),
       sliderInput(inputId = "N",label = "Number of periods (Number of periods simulated to estimate the standard deviation. Large values are more accurate but take longer to compute)",min = 2,max = 20,value = 10),
       sliderInput(inputId = "Bed_points",label = 'Number of values of "beds" to evaluate',min = 2, max = 4,value=2),
