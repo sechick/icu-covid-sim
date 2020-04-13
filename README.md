@@ -30,7 +30,14 @@ Summary in words: At https://andres-alban.shinyapps.io/icu-covid-sim/, follow th
 ### Outputs include:
 
 - COVID patients per day which can be handled in ICU, given COVID demand, LOS requirements, and potential for bed blocking. Can thereby decude the number of patients which must be referred elsewhere.
-- Simular statistics for unplanned non-COVID-19 ICU patients, for the block of beds allocated for them.
+<p align="center">
+  <img src="throughput_example.png" width="350" alt="accessibility text">
+</p>
+- Similar statistics for unplanned non-COVID-19 ICU patients, for the block of beds allocated for them: Fraction of referrals and occupancy rate.
+<p align="center">
+  <img src="referrals_example.png" width="350" alt="accessibility text">
+  <img src="occupancy_example.png" width="350" alt="accessibility text">
+</p>
 
 ### More examples of USAGE of the tool is at ([README-AppB.md](README-AppB.md))
 

@@ -27,7 +27,7 @@ Parameters are entered as follows.
 
 <p align="center">
   <img src="icu-covid-inputs.png" width="300" alt="accessibility text">
-  <img src="icu-noncovid-inputs.png" width="300" alt="accessibility text">
+  <img src="icu-noncovid-inputs.png" width="298.3" alt="accessibility text">
 </p>
 
 ## Inputs to describe the model: Simplest case
@@ -63,7 +63,7 @@ Specify the range of beds under consideration for capacity expansion to handle C
 
 ### Parameters for non-COVID-19 patients.
 
-Parameters for the ICU capacity and usage for non-COVID-19 patients is handled slightly differently. This is because these rates might be more controllable, for example by cancelling elective or nonurgent surgeries.
+Parameters for the ICU capacity and usage for non-COVID-19 patients is handled slightly differently. This is because these rates might be more controllable by allowing different streams of patients, e.g., patients referred from different departments in the hospital, or different medical specialisms.
 
 #### Simplest case: one stream of non-COVID-19 patients
 
@@ -73,15 +73,14 @@ LOS distributions can be specified for non-COVID-19 patients with a different di
 
 You can also specify a range of number of beds for non-COVID-19 patients to test.
 
-For the simplest scenario, we assume that all non-COVID ICU patients are unplanned urgent patients with a single statistical distribution. This may be reasonable when there all non-urgent planned elective surgeries are cancelled, for example. For the more complicated case of several streams of non-COVID patients with different statistical distributions for ICU care, please see the 'Advanced case' below.
+For the simplest scenario, we assume that all non-COVID ICU patients are unplanned urgent patients with a single statistical distribution. This may be reasonable when all non-urgent planned elective surgeries are cancelled, for example.
 
-
-FIXED TO HERE:
-
+#### Advanced case: several streams of non-COVID-19 patients
+For the more complicated case of several streams of non-COVID patients with different arrival rate and LOS distributions you can specify the inputs separated by commas. The inputs for the LOS distribution for all streams have to be given in the same specifications, i.e., all with the median (IQR) or all with mean (sd) specification. The number of inputs for arrival rate and LOS have to be the same length and be entered in the same order, i.e., the first entry for arrival rate, LOS mean, and LOS sd corresponds to stream 1, the second set of entres to stream 2 and so on.
 
 ### Additional comments:
 
-LOS for individual patients is truncated at 200 days for purposes of the analysis. In the analysis reported in the paper for Amsterdam UMC, site AMC, all ICU demand for planned care was presumed to be 0 due to cancellations of procedures. Only historical urgent ICU demand patterns were modelled with a lognormal distribution with mean 4.36 and sd 8.95 (this corresponds to a log-mean 0.52 and log-sd 1.46). The model allows several patient flows for different specialisms, each with a different arrival rate, and different LOS distribution.
+LOS for individual patients is truncated at 200 days for purposes of the analysis. In the analysis reported in the paper for Amsterdam UMC, site AMC, all ICU demand for planned care was presumed to be 0 due to cancellations of procedures. Only historical urgent ICU demand patterns were modelled with a lognormal distribution with mean 4.36 and sd 8.95 (this corresponds to a log-mean 0.52 and log-sd 1.46).
 
 
 ## Outputs from the model:
@@ -110,32 +109,21 @@ The simulations can be further controlled using several additional parameters.
   <img src="icu-additional-params.png" width="300" title="hover text">
 </p>
 
-FIX ANDRES PLEASE REVIEW AND FIX THIS! SWITCH ORDER OF PERIOD LENGTH AND NUM PERIODS? PLEASE USE FEEDBACK FROM REFEREES TO UPDATE.
+### Period length in simulation days
+
+The period length is the number of days simulated to compute the standard deviation of the performance measures. The theoretical means are long-run averages of the performance (steady-state) and the error bars around them represent the standard deviation for finite periods with the specified length. 
 
 ### Number of periods
 
-Number of periods says how many time periods are simulated to compute the standard deviation of the process statistics mentioned above (percent utilization, rate of ICU patients which can be treated). 
+Number of periods says how many time periods are simulated to compute the standard deviation of the process statistics mentioned above. 
 
-### Period length in simulation days
+### Number of values of numbers of "beds" to evaluate
 
-The period length is the number of days for which statistics for percent utilization are computed with simulations. For example, 14 days means that the average utilization, or average number of ICU patients treated, is computed over a 14 day window, for purposes of displaying variability above and below the theoretical percent utlization or number of patients treated.
+The plots evaluate the performance for a range of bed capacity setups. This input specifies how many setups to evaluate within the range specified by the user. This setting is used for COVID and non-COVID.
 
-### Number of values of numbers of beds to evaluate
+### Number of values of "COVID-19 arrival rate" to evaluate
 
-FIX:
-
-### Number of values of COVID-19 arrival rates to evaluate
-
-FIX
-
-## Inputs to describe the model: Advanced case
-
-For this example, we show how to allow for multiple streams of non-COVID ICU patients who may consume non-COVID ICU bed capacity. For example, if there are multiple specialisms with continued potential demand and which have different LOS distributions.
-
-
-FIX ANDRES PLEASE GIVE AN EXAMPLE OF SPECIFYING TWO STREAMS.
-
-
+The plots for COVID-19 patients evaluate the performance for a range of arrival rates. This input specifies how many values to evaluate within the range specified by the user.
 
 ## References:
 

@@ -44,14 +44,16 @@ ui <- fluidPage(
       textInput(inputId = "arr_rate_Rest",label = "Arrival rate (patients per day)", value = 2),
       radioButtons(inputId =  "LOS_Rest",label = "LOS input type",choiceNames = c("Median (IQR)", "Mean (sd)"), choiceValues = c(1,2), selected = 2),
       # textInput(inputId = "LOS_Rest",label = "LOS Input type (1 for Median (IQR) and 2 for Mean (sd))", value = 1),
-      textInput(inputId = "LOS_Rest_mean",label = "LOS median or mean (days)", value = "4.4"),
-      textInput(inputId = "LOS_Rest_sd",label = "LOS IQR or std. deviation (days)", value = "9"),
+      # textInput(inputId = "LOS_Rest_mean",label = "LOS median or mean (days)", value = "4.4"),
+      # textInput(inputId = "LOS_Rest_sd",label = "LOS IQR or std. deviation (days)", value = "9"),
+      uiOutput("LOS_Rest_input1"),
+      uiOutput("LOS_Rest_input2"),
       sliderInput(inputId = "Rest_beds",label = "Beds allocated to non-COVID-19 patients",min = 1, max = 50,value = c(8,15)),
       h4("Additional settings"),
-      sliderInput(inputId = "N",label = "Number of periods (Large values are more accurate but take longer to compute)",min = 2,max = 20,value = 10),
-      sliderInput(inputId = "K",label = "Period length in simulation days",min = 7,max = 60,value = 14),
-      sliderInput(inputId = "Bed_points",label = "Number of locations to evaluate the number of beds",min = 2, max = 4,value=2),
-      sliderInput(inputId = "Arr_points",label = "Number of locations to evaluate the arrival rate",min = 2, max = 8,value=5)
+      sliderInput(inputId = "K",label = "Period length in simulation days (The error bars evaluate the standard deviation of the performance measures in a period of this length)",min = 7,max = 60,value = 14),
+      sliderInput(inputId = "N",label = "Number of periods (Number of periods simulated to estimate the standard deviation. Large values are more accurate but take longer to compute)",min = 2,max = 20,value = 10),
+      sliderInput(inputId = "Bed_points",label = 'Number of values of "beds" to evaluate',min = 2, max = 4,value=2),
+      sliderInput(inputId = "Arr_points",label = 'Number of values of "COVID-19 arrival rate" to evaluate',min = 2, max = 8,value=5)
     ),
     
     #mainframe to choose which variables to show and to plot the figures
@@ -77,6 +79,8 @@ server = function(input,output,session){
   ## Interactive inputs
   output$LOS_COVID_input1 = renderUI({numericInput(inputId =  "LOS_COVID_mean", label = paste0(ifelse(input$LOS_COVID == 1,"Median","Mean")," (days)"), value = 8)})
   output$LOS_COVID_input2 = renderUI({numericInput(inputId =  "LOS_COVID_sd", label = paste0(ifelse(input$LOS_COVID == 1,"IQR","Std. deviation")," (days)",ifelse(input$LOS_COVID == 1,": 75% quantile - 25% quantile of LOS","")), value = 8)})
+  output$LOS_Rest_input1 = renderUI({textInput(inputId =  "LOS_Rest_mean", label = paste0(ifelse(input$LOS_Rest == 1,"Median","Mean")," (days)"), value = "4.4")})
+  output$LOS_Rest_input2 = renderUI({textInput(inputId =  "LOS_Rest_sd", label = paste0(ifelse(input$LOS_Rest == 1,"IQR","Std. deviation")," (days)",ifelse(input$LOS_Rest == 1,": 75% quantile - 25% quantile of LOS","")), value = "9")})
   
   # output$COVID_beds_input = renderUI({sliderInput(inputId = "COVID_beds",label = )})
   
