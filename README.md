@@ -32,7 +32,7 @@ Summary in words: At https://andres-alban.shinyapps.io/icu-covid-sim/, follow th
 - COVID patients per day which can be handled in ICU, given COVID demand, LOS requirements, and potential for bed blocking. One can thereby deduce the rate of patients which must be referred elsewhere by subtracting the demand from the patients which can be handled.
 
 <p align="center">
-  <img src="Docs/throughput_example.png" width="350" alt="throughput_example text">
+  <img src="Docs/throughput_example.png" width="450" alt="throughput_example text">
 </p>
 
 - Similar statistics for unplanned non-COVID-19 ICU patients, for the block of beds allocated for them: Fraction of referrals and occupancy rate.
