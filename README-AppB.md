@@ -1,6 +1,6 @@
 # ICU capacity management during the COVID-19 pandemic using a process simulation (icu-covid-sim)
 
-## AUTHORS: 
+## AUTHORS:
 
 Andres Alban*; Stephen E Chick*, PhD; Dave A. Dongelmans**, MD, PhD; Alexander F. van der Sluijs**, MD; W. Joost Wiersinga**** MD, PhD, MBA; Alexander P.J. Vlaar**, MD, PhD, MBA; Danielle Sent***, PhD
 
@@ -13,15 +13,15 @@ NOTE: Code provided as is for noncommercial, academic usage only.
 
 This repository contains R/Rstudio/Shiny implementation of the decision support tool described in 'ICU capacity management during the COVID-19 pandemic using a process simulation' by the authors above.
 
-The application has been deployed at: https://andres-alban.shinyapps.io/icu-covid-sim/. 
+The application has been deployed at: https://andres-alban.shinyapps.io/icu-covid-sim/.
 The main readme for this repo is ([README.md](README.md)).
-See also motivation and conceptual model at ([README-AppA.md](README-AppA.md)).
+See also motivation and conceptual model at ([README-AppA.md](README-AppA.md)). This builds upon prior work for ICU patient simulations [1].
 
 # Appendix B: Example Usage of icu-covid-sim
 
 This ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation).
 
-The model provides statistics assuming that one set of ICU beds is reserved for COVID-19 patients, and another set of beds is reserved for non-COVID-19 patients (also called ‘Other patients’). The model is implemented in the R programming language (R Core Team 2020) using RStudio (RStudio Team 2019) and RShiny (Chang et al 2020) and is provided as is without warranty. The model was made available at https://andres-alban.shinyapps.io/icu-covid-sim/.
+The model provides statistics assuming that one set of ICU beds is reserved for COVID-19 patients, and another set of beds is reserved for non-COVID-19 patients (also called ‘Other patients’). The model is implemented in the R programming language [2] using RStudio [3] and RShiny [4] and is provided as is without warranty. The model was made available at https://andres-alban.shinyapps.io/icu-covid-sim/.
 
 Parameters are entered as follows.
 
@@ -34,7 +34,7 @@ Parameters are entered as follows.
 
 Click the 'Simulate' button only AFTER all parameter values have been set. Simulation results may take up to a minute to appear.
 
-The number of ICU beds, arrival rates, and length of stay (LOS) statistics for COVID-19 patients is specified separately from the information from non-COVID-19 patients. The assumption is that patients are routed based on COVID-19 status. ICU beds dedicated for COVID-19 patients are not used for non-COVID-19 patients and vice versa. 
+The number of ICU beds, arrival rates, and length of stay (LOS) statistics for COVID-19 patients is specified separately from the information from non-COVID-19 patients. The assumption is that patients are routed based on COVID-19 status. ICU beds dedicated for COVID-19 patients are not used for non-COVID-19 patients and vice versa.
 
 
 ### Parameters for COVID-19 patients.
@@ -87,7 +87,7 @@ LOS for individual patients is truncated at 200 days for purposes of the analysi
 
 Click 'Simulate' once the inputs are selected. This may take a moment.
 
-We compute outputs using theoretical results for queuing analysis (M/G/c/c queues) where possible, and otherwise compute results using Monte Carlo/stochastic simulations to estimate or to provide a sense of variation above and below theoretical mean values (Law and Kelton 2007). The outputs from the simulation model for the analysis reported in the paper are computed from steady-state simulations of 20 periods of 2 months each. The defaults model uses 10 periods of 14 days each that can be adjusted in the additional settings of the model.
+We compute outputs using theoretical results for queuing analysis (M/G/c/c queues) where possible, and otherwise compute results using Monte Carlo/stochastic simulations to estimate or to provide a sense of variation above and below theoretical mean values [5]. The outputs from the simulation model for the analysis reported in the paper are computed from steady-state simulations of 20 periods of 2 months each. The defaults model uses 10 periods of 14 days each that can be adjusted in the additional settings of the model.
 
 Performance metrics computed include:
 
@@ -95,11 +95,11 @@ Performance metrics computed include:
 
 •	Throughput rate, for each of COVID-19 and Non-COVID-19 beds, defined as the number of patients per day that can go through the system.
 
-•	Occupancy rates, for each of COVID-19 and Non-Covid-19 beds, defined to be the fraction of beds occupied on average through time. 
+•	Occupancy rates, for each of COVID-19 and Non-Covid-19 beds, defined to be the fraction of beds occupied on average through time.
 
 Reducing the referral rate can be achieved, on average, by increasing the capacity or by decreasing the lengths of stay, for example. Statistical fluctuation can increase or decrease bed counts through time. The throughput rate increases with the arrival rate provided that enough beds are in place to maintain a low referral rate. Occupancy rates can inform decisions for initial capacity expansion plans, or for planning for potential ability to respond to additional spikes in demand.
 
-Theoretical means are plotted together with bars that represent one standard deviation of values computed over a sequence of time periods whose number and length is specified by the parameters in 'additional settings'. They are not standard errors for estimates of the means (which are computed exactly from theoretical steady-state queueing analysis). Instead, they represent variations in the patient throughput rates, fraction of occupied beds, and fraction of referrals (due to bed blocking). 
+Theoretical means are plotted together with bars that represent one standard deviation of values computed over a sequence of time periods whose number and length is specified by the parameters in 'additional settings'. They are not standard errors for estimates of the means (which are computed exactly from theoretical steady-state queueing analysis). Instead, they represent variations in the patient throughput rates, fraction of occupied beds, and fraction of referrals (due to bed blocking).
 
 ## Additional settings:
 
@@ -111,11 +111,11 @@ The simulations can be further controlled using several additional parameters.
 
 ### Period length in simulation days
 
-The period length is the number of days simulated to compute the standard deviation of the performance measures. The theoretical means are long-run averages of the performance (steady-state) and the error bars around them represent the standard deviation for finite periods with the specified length. 
+The period length is the number of days simulated to compute the standard deviation of the performance measures. The theoretical means are long-run averages of the performance (steady-state) and the error bars around them represent the standard deviation for finite periods with the specified length.
 
 ### Number of periods
 
-Number of periods says how many time periods are simulated to compute the standard deviation of the process statistics mentioned above. 
+Number of periods says how many time periods are simulated to compute the standard deviation of the process statistics mentioned above.
 
 ### Number of values of numbers of "beds" to evaluate
 
@@ -127,14 +127,14 @@ The plots for COVID-19 patients evaluate the performance for a range of arrival 
 
 ## References:
 
-14. Alban A, Chick SE, Lvova O, Sent D (2020) A simulation model to evaluate the patient flow in an intensive care unit under different levels of specialization, invited submission to Proc. 2020 Winter Simulation Conference, KH Bae, et al, eds. IEEE. Piscataway, NJ. https://ssrn.com/abstract_id=3565826
+1. Alban A, Chick SE, Lvova O, Sent D (2020) A simulation model to evaluate the patient flow in an intensive care unit under different levels of specialization, invited submission to Proc. 2020 Winter Simulation Conference, KH Bae, et al, eds. IEEE. Piscataway, NJ. https://ssrn.com/abstract_id=3565826
 
-Chang W, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2020). shiny: Web Application Framework for R. R package version 1.4.0.2. https://CRAN.R-project.org/package=shiny
+2. R Core Team (2020). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
 
-13. Law AM, WD Kelton (2007) Simulation Modeling and Analysis, 4th edition, McGraw Hill. New York.
+3. RStudio Team (2019). RStudio: Integrated Development for R. RStudio, Inc., Boston, MA URL http://www.rstudio.com/
 
-R Core Team (2020). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
+4. Chang W, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2020). shiny: Web Application Framework for R. R package version 1.4.0.2. https://CRAN.R-project.org/package=shiny
 
-RStudio Team (2019). RStudio: Integrated Development for R. RStudio, Inc., Boston, MA URL http://www.rstudio.com/
+5. Law AM, WD Kelton (2007) Simulation Modeling and Analysis, 4th edition, McGraw Hill. New York.
 
 
