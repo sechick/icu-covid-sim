@@ -16,7 +16,6 @@ This repository contains R/Rstudio/Shiny implementation of the decision support 
 The application has been deployed at: https://andres-alban.shinyapps.io/icu-covid-sim/.
 The main readme for this repo is ([README.md](README.md)).
 Examples of USAGE of the tool is at ([README-AppB.md](README-AppB.md)).
-See also https://ssrn.com/abstract_id=3570406.
 
 # Appendix A: More background on conceptual model
 
@@ -51,15 +50,15 @@ We also varied the anticipated demand rate of COVID-19 ICU patients, in order to
 We first explored how COVID-19 ICU bed capacity interacts with variability in COVID-19 patient arrivals and LOS to determine the maximum throughput of COVID-19 patients in the ICU.  Figure 1 displays the throughput rate of COVID-19 patients (patients per day) on the vertical axis, as a function of the arrival rate of COVID-19 patients per day, and as a function of the number of beds dedicated to COVID-19 patients. Patient throughput rates would equal the patient arrival rates (the diagonal dotted line) if all patients were to be admitted to the ICU. A higher bed capacity results in a higher ability to admit patients; however, variation in patient arrival rates and LOS mean that some patients cannot be admitted and need to be referred to another hospital. The lines represent theoretical results for long-term average performance for the queueing system. The error bars represent plus or minus one standard deviation due to random variation over a 3-month period (duration chosen to match an estimate of the duration of the COVID-19 demand peak). The graph shows that with 5 COVID patients per day or less arriving, almost all can be admitted with 60 or more beds reserved for COVID patients. With 90 beds, approximately 8 COVID patients per day could be admitted, and only 2% of patients would be referred to other facilities.
 
 <p align=center>
-<img src="Docs/COVID-19_throughput.png" width="350" alt="COVID-19_throughput text">
+<img src="Docs/COVID-19_throughput.png" width="450" alt="COVID-19_throughput text">
 <br>
 Figure 1: Average throughput rate in long-term of COVID patients per day as a function of the arrival rate and bed capacity. Throughput rate can be less than the arrival rate due to bed blocking.
 <p\>
 
-When then explored COVID-19 ICU bed occupancy as a function of bed capacity, COVID-19 arrival rates, and variability in arrival times and patient LOS. Figure 2 shows the average bed occupancy, for COVID-19 patients, for the same scenarios for arrival rates of patients per day, and bed capacities. Occupancy rates increase to 100% as arrival rates increase for this range of COVID-19 ICU bed capacity. At 8 COVID-19 patients per day with a capacity of 90 beds, there is 87% utilization, and patients are transferred, due to statistical fluctuations in bed occupancy over time. The number of COVID-19 beds was raised to 50 for COVID-19 at location AMC and to 94 total for both locations of Amsterdam UMC, to date.
+When then explored COVID-19 ICU bed occupancy as a function of bed capacity, COVID-19 arrival rates, and variability in arrival times and patient LOS. Figure 2 shows the average bed occupancy, for COVID-19 patients, for the same scenarios for arrival rates of patients per day, and bed capacities. Occupancy rates increase to 100% as arrival rates increase for this range of COVID-19 ICU bed capacity. At 8 COVID-19 patients per day with a capacity of 90 beds, there is 87% utilization, due to statistical fluctuations in bed occupancy over time. The number of COVID-19 beds was raised to 50 for COVID-19 at location AMC and to 94 total for both locations of Amsterdam UMC, to date.
 
 <p align=center>
-<img src="Docs/COVID-19_occupancy.png" width="350" alt="COVID-19_occupancy text">
+<img src="Docs/COVID-19_occupancy.png" width="450" alt="COVID-19_occupancy text">
 <br>
 Figure 2: Fraction of COVID-19 bed occupancy, on average.
 <p\>
@@ -67,15 +66,15 @@ Figure 2: Fraction of COVID-19 bed occupancy, on average.
 It is also important to assess the ability of the ICU to manage unplanned, non-COVID-19 ICU patients. Figure 3 shows performance characteristics for a department with ICU beds reserved for non-COVID emergencies. Arrival rates between 0.2 and 4 are displayed, reflecting the current reduced load of patients in part due to planned nonurgent surgeries being canceled. The estimated demand rate of unplanned non-COVID arrivals to the ICU was estimated at 2 per day, and 9 beds were reserved for them. Both performance metrics improve with increasing capacity.
 
 <p align=center>
-<img src="Docs/NonCOVID-19_performance.png" width="700" alt="NonCOVID-19_performance text">
+<img src="Docs/NonCOVID-19_performance.png" width="800" alt="NonCOVID-19_performance text">
 <br>
 Figure 3: Average throughput rate (left) and fraction of occupied beds (right) for non-COVID-19 patients as a function of the arrival rate and ICU capacity dedicated to non-COVID-19 patients.
 <p\>
 
-The separation of COVID-19 from non-COVID-19 patients in different units adds an operational constraint to ICU bed management. This constraint may have the effect of reducing the overall throughput of patients, or of increasing the fraction of patients which may need a referral to other facilities. Figure 4 shows that this is indeed the case.
+The separation of COVID-19 from non-COVID-19 patients in different units adds an operational constraint to ICU bed management. This constraint may have the effect of reducing the overall throughput of patients, or of increasing the fraction of patients which may need a referral to other facilities. Figure 4 shows that this is indeed the case. This figure was performed through additional analysis which was not computed in the public shiny app.
 
 <p align=center>
-<img src="Docs/comparison_specialized_general.png" width="700" alt="comparison_specialized_general text">
+<img src="Docs/comparison_specialized_general.png" width="800" alt="comparison_specialized_general text">
 <br>
 Figure 4: Separation of COVID-19 and other ICU patients increases the need to refer patients to other facilities, even if overall bed occupancy rates are the same, as compared to operating without the need to isolate COVID-19 patients
 <p\>

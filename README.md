@@ -48,12 +48,9 @@ Summary in words: At https://andres-alban.shinyapps.io/icu-covid-sim/, follow th
 
 ### Motivation and conceptual model to the context of COVID is at ([README-AppA.md](README-AppA.md)).
 
-See also https://ssrn.com/abstract_id=3570406.
-
 ### More examples of USAGE of the tool is at ([README-AppB.md](README-AppB.md)).
 
-Model was adapted from an earlier study of operations management / process flow simulations at: https://ssrn.com/abstract_id=3565826 (invited for 2020 Winter Simulation Conference).
+Model was adapted from an earlier study of operations management / process flow simulations at: https://ssrn.com/abstract_id=3565826 (invited for 2020 Winter Simulation Conference). See also https://ssrn.com/abstract_id=3570406.
 
 Software provided "as is". Support not provided, feedback to icucovidcap@gmail.com (please also let us know if it helped). If you adapt it, please refer to https://github.com/sechick/icu-covid-sim/ and one of the papers above.
-
 

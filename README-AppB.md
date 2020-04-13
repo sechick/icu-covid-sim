@@ -65,7 +65,7 @@ Specify the range of beds under consideration for capacity expansion to handle C
 
 ### Parameters for non-COVID-19 patients.
 
-Parameters for the ICU capacity and usage for non-COVID-19 patients is handled slightly differently. This is because these rates might be more controllable by allowing different streams of patients, e.g., patients referred from different departments in the hospital, or different medical specialisms.
+Parameters for the ICU capacity and usage for non-COVID-19 patients is handled slightly differently. This is because these rates might be more controllable by allowing different streams of patients, e.g., patients referred from different departments in the hospital, or different medical specialisms (examples: internal medicine, surgery).
 
 #### Simplest case: one stream of non-COVID-19 patients
 
