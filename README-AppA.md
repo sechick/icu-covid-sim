@@ -1,6 +1,6 @@
 # Online Supplement for: ICU capacity management during the COVID-19 pandemic using a process simulation (icu-covid-sim)
 
-icu-covid-sim is an ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation). Decision support tool for ICU capacity planning for COVID crisis. Queue and simulation tool. This is online supplemental material for a refereed Letter accepted for publication in Intensive Care Medicine (https://www.springer.com/journal/134/). (accepted 18 april 2020)
+icu-covid-sim is an ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation). Decision support tool for ICU capacity planning for COVID crisis. Queue and simulation tool. This is online supplemental material for a refereed Letter accepted  (on 18 april 2020) for publication in Intensive Care Medicine (https://www.springer.com/journal/134/). 
 
 ## AUTHORS:
 

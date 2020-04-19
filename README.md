@@ -1,6 +1,6 @@
 # Online Supplement for: ICU capacity management during the COVID-19 pandemic using a process simulation (icu-covid-sim)
 
-icu-covid-sim is an ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation). Decision support tool for ICU capacity planning for COVID crisis. Queue and simulation tool. This is online supplemental material for a refereed Letter accepted for publication in Intensive Care Medicine (https://www.springer.com/journal/134/). (accepted 18 april 2020)
+icu-covid-sim is an ICU decision support tool for ICU capacity planning for COVID crisis is designed to support ICU capacity decisions for COVID-19 and for non-COVID unplanned patients, using tools from operations research (queue and process simulation). Decision support tool for ICU capacity planning for COVID crisis. Queue and simulation tool. This is online supplemental material for a refereed Letter accepted (on 18 april 2020) for publication in Intensive Care Medicine (https://www.springer.com/journal/134/). 
 
 ## AUTHORS: 
 
@@ -21,10 +21,10 @@ The application has been deployed at: https://andres-alban.shinyapps.io/icu-covi
 
 Summary: Decision support too for ICU capacity expansion planning during COVID outbreak. Calculates maximum throughput of COVID-19 patients through COVID-19 ICU beds, and similar for non-COVID-19 patients through non-COVID-19 beds. Also informs number of patients which must be referred elsewhere and bed utilization, for a range of ICU bed capacities under consideration.
 
-This is Online Supplemental Material for 'ICU capacity management during the COVID-19 pandemic using a process simulation', accepted to appear for publication in Intensive Care Medicine.
+This is Online Supplemental Material for 'ICU capacity management during the COVID-19 pandemic using a process simulation', accepted (on 18 april 2020) to appear for publication in Intensive Care Medicine.
 
 See: 
-* Motivation, conceptual model, and application to Amsterdam UMC location AMC ICU capacity planning at([README-AppA.md](README-AppA.md)).
+* Motivation, conceptual model, and application to Amsterdam UMC (location AMC) ICU ([README-AppA.md](README-AppA.md)).
 * User Manual at ([README-AppB.md](README-AppB.md)).
 
 * Tool which can be adapted with data for other hospital's ICUs at https://andres-alban.shinyapps.io/icu-covid-sim/. At that web site, first, fill in parameter values for COVID and nonCOVID patients to describe arrival patterns and length of stay (LOS) distributions. Second, click 'Simulate' button. Third, observe the simulation results (may take a minute).
