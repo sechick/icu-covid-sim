@@ -26,9 +26,9 @@ ui <- fluidPage(
     tags$li("Length of stay (LOS) distribution specified with median and interquartile range (IQR) or mean and standard deviation (sd)"),
     tags$li("Number of ICU beds allocated to COVID-19 and non-COVID-19 patients")
   ),
-  strong("For more details: paper in submission, built on conceptual model ",
-    a("here",href = "https://papers.ssrn.com/abstract_id=3565826"), 
-    "(invited for 2020 Winter Simulation Conference), and see ", a("https://github.com/sechick/icu-covid-sim/",href="https://github.com/sechick/icu-covid-sim/"), " for source code and additional information about the conceptual model."),
+  strong("This is online supplemental material for 'ICU capacity management during the COVID-19 pandemic using a process simulation', accepted (18 april 2020) to appear as a Letter in Intensive Care Medicine (",a("https://www.springer.com/journal/134/",href="https://www.springer.com/journal/134/"),")."),
+  br(),
+  strong("See also ",a("https://github.com/sechick/icu-covid-sim/",href="https://github.com/sechick/icu-covid-sim/"),"for source code and additional information about the conceptual model, and predecessor work ",a("here",href = "https://papers.ssrn.com/abstract_id=3565826")," (invited for 2020 Winter Simulation Conference)"),
   p('Software provided "as is". Support not provided, feedback to', a("icucovidcap@gmail.com",href = "mailto:icucovidcap@gmail.com"),"(please also let us know if it helped)."),
   
   sidebarLayout(
@@ -69,13 +69,20 @@ ui <- fluidPage(
       conditionalPanel(condition="$('html').hasClass('shiny-busy')",
                                                   tags$div("Loading... (This may take a few minutes)",id="loadmessage")),
       h3("Throughput rate of COVID-19 patients: the number of patients per day that can go through the system:"),
-      plotOutput("rej_COVID"),
+      plotOutput("rej_COVID", click = "rej_COVID_click"),
+      verbatimTextOutput("rej_COVID_info"),
+      
       h3("The fraction of beds occupied on average for COVID-19 patients"),
-      plotOutput("occ_COVID"),
+      plotOutput("occ_COVID", click = "occ_COVID_click"),
+      verbatimTextOutput("occ_COVID_info"),
+      
       h3("The fraction of patients who need to be referred to another hospital due to capacity issues for Non-COVID-19 patients"),
-      plotOutput("rej_Rest"),
+      plotOutput("rej_Rest", click = "rej_Rest_click"),
+      verbatimTextOutput("rej_Rest_info"),
+      
       h3("The fraction of beds occupied on average for Non-COVID-19 patients"),
-      plotOutput("occ_Rest")
+      plotOutput("occ_Rest", click = "occ_Rest_click"),
+      verbatimTextOutput("occ_Rest_info")
     ),
     tabPanel("Manual",
              includeMarkdown("AppManual.md"))
@@ -111,6 +118,14 @@ server = function(input,output,session){
     legend("topleft",legend = paste0(c_specs[,1]," beds"), col = brewer.pal(nrow(rej_rate_COVID)+1,"Blues")[2:(nrow(rej_rate_COVID)+1)],lty = 1,pch = 19,bty = "n",title = "ICU capacity: COVID-19")
   })
   
+  output$rej_COVID_info <- renderText({
+    if (is.null(input$rej_COVID_click)){
+      "Click on a point on the figure to see the coordinates."
+    }else{
+      paste0("Arrival rate=", round(input$rej_COVID_click$x,2), "\nThroughput rate=", round(input$rej_COVID_click$y,2))
+    }
+  })
+  
   output$occ_COVID = renderPlot({
     par(bty="l")
     plot(0,type="l",xlim = arr_rate_COVID[c(1,length(arr_rate_COVID))]*c(1,1.2),ylim = c(0,max(occ_rate_COVID)+0.1),xlab = "Arrival rate (Patients per day)",ylab = "Fraction of occupied beds",main = "COVID-19 patients")
@@ -122,6 +137,14 @@ server = function(input,output,session){
     legend("topright",legend = paste0(c_specs[,1]," beds"), col = brewer.pal(nrow(rej_rate_COVID)+1,"Blues")[2:(nrow(rej_rate_COVID)+1)],lty = 1,pch = 19,bty = "n",title = "ICU capacity: COVID-19")
   })
   
+  output$occ_COVID_info <- renderText({
+    if (is.null(input$occ_COVID_click)){
+      "Click on a point on the figure to see the coordinates."
+    }else{
+      paste0("Arrival rate=", round(input$occ_COVID_click$x,2), "\nFraction of occupied beds=", round(input$occ_COVID_click$y,2))
+    }
+  })
+  
   output$rej_Rest = renderPlot({
     par(bty="l")
     plot(c_specs[,2],rej_rate_Rest_true,col = brewer.pal(4,"Set1")[1],xlab = "ICU capacity: Non-COVID-19 (Beds)",ylab = "Fraction of referrals",type = "o",pch = 19, ylim = c(0,max(rej_rate_Rest_true)*1.2),xlim = c(min(c_specs[,2]),max(c_specs[,2])),main = "Non-COVID-19")
@@ -129,11 +152,27 @@ server = function(input,output,session){
     error.bar(c_specs[,2],rej_rate_Rest_true,rej_rate_Rest_SD[,1],col = brewer.pal(4,"Set1")[1])
   })
   
+  output$rej_Rest_info <- renderText({
+    if (is.null(input$rej_Rest_click)){
+      "Click on a point on the figure to see the coordinates."
+    }else{
+      paste0("Beds=", round(input$rej_Rest_click$x,2), "\nFraction of referrals=", round(input$rej_Rest_click$y,2))
+    }
+  })
+  
   output$occ_Rest = renderPlot({
     par(bty="l")
     plot(c_specs[,2],occ_rate_Rest_true,col = brewer.pal(4,"Set1")[1],xlab = "ICU capacity: Non-COVID-19 (Beds)",ylab = "Fraction of occupied beds",type = "o",pch = 19, ylim = c(0,1),xlim = c(min(c_specs[,2]),max(c_specs[,2])),main = "Non-COVID-19")
     # lines(c_specs[,2],rowMeans(occ_rate_Rest), col = brewer.pal(4,"Set1")[3], type = "o", lty = 4, pch = 19)
     error.bar(c_specs[,2],occ_rate_Rest_true,occ_rate_Rest_SD[,1],col = brewer.pal(4,"Set1")[1])
+  })
+  
+  output$occ_Rest_info <- renderText({
+    if (is.null(input$occ_Rest_click)){
+      "Click on a point on the figure to see the coordinates."
+    }else{
+      paste0("Beds=", round(input$occ_Rest_click$x,2), "\nFraction of occupied beds=", round(input$occ_Rest_click$y,2))
+    }
   })
   
   #### Validate inputs ####
